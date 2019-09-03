@@ -1,76 +1,15 @@
 // @flow
 
-import React, { useEffect, useState } from 'react'
-import { Dimensions, FlatList, Image, StyleSheet, Text, View } from 'react-native'
+import { createStackNavigator } from 'react-navigation-stack'
 
-import Api from 'src/services/Api'
-import { primary } from 'src/styles/colors'
+import MemeCreator from './MemeCreator'
+import MemeList from './MemeList'
 
-const { width } = Dimensions.get('window')
-
-type MemeType = {
-  box_count: number,
-  height: number,
-  id: string,
-  name: string,
-  url: string,
-  width: number,
+const Scenes = {
+  MemeList,
+  MemeCreator,
 }
 
-const App = () => {
-  const [memes, setMemes] = useState([])
+const config = {}
 
-  useEffect(() => {
-    fetchMemes()
-  }, [])
-
-  const fetchMemes = async () => {
-    const response = await Api.get('https://api.imgflip.com/get_memes')
-    setMemes(response.data?.memes || [])
-  }
-
-  const renderItem = ({ item }: { item: MemeType }) => (
-    <View style={styles.item}>
-      <Text style={styles.name}>{item.name}</Text>
-      <Image
-        resizeMethod="scale"
-        resizeMode="cover"
-        source={{ uri: item.url }}
-        style={styles.image}
-      />
-    </View>
-  )
-
-  return (
-    <FlatList
-      contentContainerStyle={styles.list}
-      data={memes}
-      numColumns={2}
-      renderItem={renderItem}
-    />
-  )
-}
-
-export default App
-
-const IMAGE_SIZE = width / 2 - 20
-
-const styles = StyleSheet.create({
-  image: {
-    alignSelf: 'center',
-    height: IMAGE_SIZE,
-    width: IMAGE_SIZE,
-  },
-  item: {
-    alignItems: 'center',
-    flex: 1,
-    justifyContent: 'center',
-  },
-  list: {
-    paddingTop: 40,
-  },
-  name: {
-    color: primary,
-    fontSize: 16,
-  },
-})
+export default createStackNavigator(Scenes, config)
