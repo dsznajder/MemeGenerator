@@ -2,6 +2,7 @@
 
 import RNFS from 'react-native-fs'
 import React, { useRef, useState } from 'react'
+import Share from 'react-native-share'
 import ViewShot from 'react-native-view-shot'
 import { Dimensions, Image, ImageBackground, ScrollView, StyleSheet, Text } from 'react-native'
 
@@ -29,7 +30,7 @@ type Props = {
 const MemeCreator = ({ navigation: { getParam } }: Props) => {
   const [firstLine, setFirstLine] = useState('')
   const [secondLine, setSecondLine] = useState('')
-  const [createdMeme, setCreatedMeme] = useState()
+  const [createdMeme, setCreatedMeme] = useState('')
   const meme = getParam('meme', {})
   const viewShowRef = useRef()
   const imageStyle = { width: Math.min(meme.width, width), height: Math.min(meme.height, width) }
@@ -38,9 +39,13 @@ const MemeCreator = ({ navigation: { getParam } }: Props) => {
     // $FlowFixMe
     viewShowRef.current.capture().then(path => {
       RNFS.readFile(path, 'base64').then(image => {
-        setCreatedMeme(`data:image/png;base64,${image}`)
+        setCreatedMeme(`data:image/jpg;base64,${image}`)
       })
     })
+  }
+
+  const shareMeme = () => {
+    Share.open({ url: createdMeme })
   }
 
   return (
@@ -48,6 +53,9 @@ const MemeCreator = ({ navigation: { getParam } }: Props) => {
       {createdMeme ? (
         <>
           <Image source={{ uri: createdMeme }} style={imageStyle} />
+          <Button color={primary} onPress={shareMeme} style={styles.button}>
+            <Text style={styles.buttonText}>{'Udostępnij'}</Text>
+          </Button>
         </>
       ) : (
         <>
