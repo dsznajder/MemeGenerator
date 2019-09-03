@@ -1,20 +1,27 @@
 // @flow
 
-import { createAppContainer, createBottomTabNavigator } from 'react-navigation'
-// eslint-disable-next-line import/no-unresolved
+import { createAppContainer } from 'react-navigation'
+import { createDrawerNavigator } from 'react-navigation-drawer'
 import { useScreens } from 'react-native-screens'
 
 import Main from 'src/scenes/Main'
 import RNDefault from 'src/scenes/RNDefault'
+
+import { primary } from 'src/styles/colors'
+
 useScreens()
 
 const Scenes = {
-  RNDefault,
   Main,
+  RNDefault,
 }
 
-const config = {}
+const config = {
+  contentOptions: {
+    activeTintColor: primary,
+  },
+}
 
-const Navigator = createBottomTabNavigator(Scenes, config)
+const Navigator = createDrawerNavigator(Scenes, config)
 
 export default createAppContainer(Navigator)
