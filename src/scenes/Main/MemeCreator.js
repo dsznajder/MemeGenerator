@@ -1,8 +1,9 @@
 // @flow
 
+import RNFS from 'react-native-fs'
 import React, { useRef, useState } from 'react'
 import ViewShot from 'react-native-view-shot'
-import { Dimensions, ImageBackground, ScrollView, StyleSheet, Text } from 'react-native'
+import { Dimensions, Image, ImageBackground, ScrollView, StyleSheet, Text } from 'react-native'
 
 import Button from 'src/components/Button'
 import Input from 'src/components/Input'
@@ -28,32 +29,41 @@ type Props = {
 const MemeCreator = ({ navigation: { getParam } }: Props) => {
   const [firstLine, setFirstLine] = useState('')
   const [secondLine, setSecondLine] = useState('')
+  const [createdMeme, setCreatedMeme] = useState()
   const meme = getParam('meme', {})
   const viewShowRef = useRef()
+  const imageStyle = { width: Math.min(meme.width, width), height: Math.min(meme.height, width) }
 
   const saveMeme = () => {
     // $FlowFixMe
-    viewShowRef.current.capture().then(uri => {
-      console.log(uri)
+    viewShowRef.current.capture().then(path => {
+      RNFS.readFile(path, 'base64').then(image => {
+        setCreatedMeme(`data:image/png;base64,${image}`)
+      })
     })
   }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Input label="First line" onChangeText={setFirstLine} value={firstLine} />
-      <ViewShot options={{ format: 'jpg', quality: 0.9 }} ref={viewShowRef}>
-        <ImageBackground
-          source={{ uri: meme.url }}
-          style={{ width: Math.min(meme.width, width), height: Math.min(meme.height, width) }}
-        >
-          <Text style={[styles.text, styles.firstLine]}>{firstLine}</Text>
-          <Text style={[styles.text, styles.secondLine]}>{secondLine}</Text>
-        </ImageBackground>
-      </ViewShot>
-      <Input label="Second line" onChangeText={setSecondLine} value={secondLine} />
-      <Button color={primary} onPress={saveMeme} style={styles.button}>
-        <Text style={styles.buttonText}>{'Zapisz mem'}</Text>
-      </Button>
+      {createdMeme ? (
+        <>
+          <Image source={{ uri: createdMeme }} style={imageStyle} />
+        </>
+      ) : (
+        <>
+          <Input label="First line" onChangeText={setFirstLine} value={firstLine} />
+          <ViewShot options={{ format: 'jpg', quality: 0.9 }} ref={viewShowRef}>
+            <ImageBackground source={{ uri: meme.url }} style={imageStyle}>
+              <Text style={[styles.text, styles.firstLine]}>{firstLine}</Text>
+              <Text style={[styles.text, styles.secondLine]}>{secondLine}</Text>
+            </ImageBackground>
+          </ViewShot>
+          <Input label="Second line" onChangeText={setSecondLine} value={secondLine} />
+          <Button color={primary} onPress={saveMeme} style={styles.button}>
+            <Text style={styles.buttonText}>{'Zapisz mem'}</Text>
+          </Button>
+        </>
+      )}
     </ScrollView>
   )
 }
