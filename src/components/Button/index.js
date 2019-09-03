@@ -17,8 +17,7 @@ type Props = {
   color?: string,
   disabled?: boolean,
   onPress: () => void,
-  // $FlowFixMe
-  style: StyleSheet.Styles,
+  style?: StyleSheet.Styles,
 }
 
 export default class Button extends React.Component<Props> {
