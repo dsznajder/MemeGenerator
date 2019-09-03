@@ -1,7 +1,10 @@
 // @flow
 
-import React from 'react'
-import { Dimensions, Image, ScrollView, StyleSheet } from 'react-native'
+import React, { useState } from 'react'
+import { Dimensions, ImageBackground, ScrollView, StyleSheet, Text } from 'react-native'
+
+import Input from 'src/components/Input'
+import { black, white } from 'src/styles/colors'
 
 const { width } = Dimensions.get('window')
 
@@ -21,11 +24,21 @@ type Props = {
 }
 
 const MemeCreator = ({ navigation: { getParam } }: Props) => {
+  const [firstLine, setFirstLine] = useState('')
+  const [secondLine, setSecondLine] = useState('')
   const meme = getParam('meme', {})
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Image resizeMode="contain" source={{ uri: meme.url }} style={styles.image} />
+      <Input label="First line" onChangeText={setFirstLine} value={firstLine} />
+      <ImageBackground
+        source={{ uri: meme.url }}
+        style={{ width: Math.min(meme.width, width), height: Math.min(meme.height, width) }}
+      >
+        <Text style={[styles.text, styles.firstLine]}>{firstLine}</Text>
+        <Text style={[styles.text, styles.secondLine]}>{secondLine}</Text>
+      </ImageBackground>
+      <Input label="Second line" onChangeText={setSecondLine} value={secondLine} />
     </ScrollView>
   )
 }
@@ -35,11 +48,23 @@ export default MemeCreator
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    flex: 1,
     padding: 20,
   },
-  image: {
-    height: '100%',
-    width: width - 20,
+  firstLine: {
+    flex: 1,
+    justifyContent: 'flex-start',
+  },
+  secondLine: {
+    alignSelf: 'center',
+    bottom: 0,
+    flex: 1,
+    position: 'absolute',
+  },
+  text: {
+    color: white,
+    fontSize: 30,
+    textAlign: 'center',
+    textShadowColor: black,
+    textShadowRadius: 4,
   },
 })
