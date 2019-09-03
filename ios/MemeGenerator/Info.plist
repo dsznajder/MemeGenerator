@@ -24,6 +24,14 @@
 		<string>1</string>
 		<key>LSRequiresIPhoneOS</key>
 		<true />
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>$(PRODUCT_NAME) wants to save photos</string>
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+			<string>whatsapp</string>
+			<string>messenger</string>
+			<string>facebook</string>
+		</array>
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string />
 		<key>UIAppFonts</key>
