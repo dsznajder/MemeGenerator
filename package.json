@@ -1,0 +1,87 @@
+{
+  "name": "TemplateProject",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "yarn react-native run-android",
+    "bootstrap": "./scripts/bootstrap.sh",
+    "clean:all": "yarn clean:watchman && yarn clean:builds && yarn clean:cache && yarn clean:packages",
+    "clean:builds": "rm -rf ios/build android/build android/app/build",
+    "clean:cache": "rm -fr $TMPDIR/react-* $TMPDIR/haste-map-react-native-packager-* ~/.rncache",
+    "clean:gradle": "cd android && ./gradlew clean && cd ..",
+    "clean:packages": "rm -rf node_modules && yarn install",
+    "clean:watchman": "watchman watch-del-all",
+    "coverage": "open coverage/lcov-report/index.html",
+    "ios": "yarn react-native run-ios --simulator='iPhone 8'",
+    "lint": "flow check && eslint ./ --ext .js",
+    "postinstall": "./scripts/postinstall.sh",
+    "start": "react-native start",
+    "test": "jest -u",
+    "test:ci": "jest --coverage --runInBand --detectOpenHandles",
+    "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "color": "3.1.2",
+    "lodash": "4.17.15",
+    "prop-types": "15.7.2",
+    "react": "16.8.6",
+    "react-native": "0.60.5",
+    "react-native-gesture-handler": "1.4.1",
+    "react-native-reanimated": "1.2.0",
+    "react-native-screens": "1.0.0-alpha.23",
+    "react-native-vector-icons": "6.6.0",
+    "react-navigation": "4.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "7.5.5",
+    "@babel/runtime": "7.5.5",
+    "babel-eslint": "10.0.3",
+    "babel-jest": "24.9.0",
+    "babel-plugin-lodash": "3.3.4",
+    "eslint": "6.3.0",
+    "eslint-config-prettier": "6.1.0",
+    "eslint-plugin-flowtype": "4.2.0",
+    "eslint-plugin-import": "2.18.2",
+    "eslint-plugin-jest": "22.16.0",
+    "eslint-plugin-prettier": "3.1.0",
+    "eslint-plugin-react": "7.14.3",
+    "eslint-plugin-react-native": "3.7.0",
+    "eslint-plugin-sort-imports-es6-autofix": "0.5.0",
+    "flow-bin": "0.106.3",
+    "husky": "3.0.5",
+    "jest": "24.9.0",
+    "jetifier": "1.6.4",
+    "lint-staged": "9.2.5",
+    "metro-react-native-babel-preset": "0.56.0",
+    "prettier": "1.18.2",
+    "react-test-renderer": "16.8.6"
+  },
+  "jest": {
+    "preset": "react-native",
+    "testEnvironment": "node",
+    "setupFiles": [
+      "<rootDir>/jest/setup.js",
+      "<rootDir>/node_modules/react-native-gesture-handler/jestSetup.js",
+      "<rootDir>/node_modules/react-native-reanimated/mock.js",
+      "<rootDir>/jest/__mocks__/react-native-reanimated.mock.js"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|react-navigation)"
+    ],
+    "testPathIgnorePatterns": [
+      "__e2e__",
+      "node_modules"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn flow check && lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint",
+      "git add"
+    ]
+  }
+}
