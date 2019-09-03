@@ -1,27 +1,51 @@
 // @flow
 
-import React from 'react'
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Dimensions, FlatList, Image, StyleSheet, Text, View } from 'react-native'
 
+import Api from 'src/services/Api'
 import { primary } from 'src/styles/colors'
 
-const data: Array<number> = Array(100)
-  .fill()
-  .map((element: null, index: number): number => index)
+const { width } = Dimensions.get('window')
+
+type MemeType = {
+  box_count: number,
+  height: number,
+  id: string,
+  name: string,
+  url: string,
+  width: number,
+}
 
 const App = () => {
-  const renderItem = ({ item }: { item: number }) => (
+  const [memes, setMemes] = useState([])
+
+  useEffect(() => {
+    fetchMemes()
+  }, [])
+
+  const fetchMemes = async () => {
+    const response = await Api.get('https://api.imgflip.com/get_memes')
+    setMemes(response.data?.memes || [])
+  }
+
+  const renderItem = ({ item }: { item: MemeType }) => (
     <View style={styles.item}>
-      <Text style={styles.text}>{item}</Text>
+      <Text style={styles.name}>{item.name}</Text>
+      <Image
+        resizeMethod="scale"
+        resizeMode="cover"
+        source={{ uri: item.url }}
+        style={styles.image}
+      />
     </View>
   )
 
   return (
     <FlatList
       contentContainerStyle={styles.list}
-      data={data}
-      keyExtractor={item => `${item}`}
-      numColumns={20}
+      data={memes}
+      numColumns={2}
       renderItem={renderItem}
     />
   )
@@ -29,16 +53,24 @@ const App = () => {
 
 export default App
 
+const IMAGE_SIZE = width / 2 - 20
+
 const styles = StyleSheet.create({
+  image: {
+    alignSelf: 'center',
+    height: IMAGE_SIZE,
+    width: IMAGE_SIZE,
+  },
   item: {
     alignItems: 'center',
     flex: 1,
     justifyContent: 'center',
   },
   list: {
-    paddingTop: 20,
+    paddingTop: 40,
   },
-  text: {
+  name: {
     color: primary,
+    fontSize: 16,
   },
 })
