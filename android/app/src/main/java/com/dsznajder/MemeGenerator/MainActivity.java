@@ -1,4 +1,4 @@
-package com.dsznajder.templateproject;
+package com.dsznajder.memegenerator;
 
 import android.content.Intent;
 
@@ -10,7 +10,7 @@ import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 public class MainActivity extends ReactActivity {
     @Override
     protected String getMainComponentName() {
-        return "TemplateProject";
+        return "MemeGenerator";
     }
 
     @Override

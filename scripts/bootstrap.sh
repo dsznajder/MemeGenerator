@@ -1,9 +1,5 @@
 #!/bin/sh
 
-if [ -f ./scripts/projectNameChange.sh ]; then
-    ./scripts/projectNameChange.sh
-fi
-
 _=$(command -v yarn);
 if [ "$?" != "0" ]; then
   npm install;
@@ -15,4 +11,3 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   cd ios && pod install && cd ..;
 fi
 
-rm -rf ./scripts/projectNameChange.sh

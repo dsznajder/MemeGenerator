@@ -42,7 +42,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.dsznajder.templateproject"
+        applicationId "com.dsznajder.memegenerator"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

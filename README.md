@@ -1,7 +1,4 @@
-# TemplateProject
-
-[![CircleCI](https://circleci.com/gh/dsznajder/ReactNativeTemplate/tree/master.svg?style=svg)](https://circleci.com/gh/dsznajder/ReactNativeTemplate/tree/master)
-[![codecov](https://codecov.io/gh/dsznajder/ReactNativeTemplate/branch/master/graph/badge.svg)](https://codecov.io/gh/dsznajder/ReactNativeTemplate)
+# MemeGenerator
 
 ## Dependencies included:
 
@@ -16,22 +13,6 @@
 
 [Prerequires](https://gist.github.com/dsznajder/6cc186491f53ca9b1be7eebdf68ab5c5)
 
-- Use repo as Github Template!
-- Clone your repository.
-- `cd <ProjectName>`
-- `code .`
-
-### Android:
-
-- Change `com.dsznajder.templateproject` to `com.<author>.<projectname>`
-
-### Next Steps:
-
-- CMD + Shift + F: Change `TemplateProject` to <ProjectName>
 - `yarn bootstrap`
 
 And project is ready :)
-
-# Docs
-
-### This repo has uses gitemoji! :)

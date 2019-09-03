@@ -5,7 +5,7 @@
 		<key>CFBundleDevelopmentRegion</key>
 		<string>en</string>
 		<key>CFBundleDisplayName</key>
-		<string>TemplateProject</string>
+		<string>MemeGenerator</string>
 		<key>CFBundleExecutable</key>
 		<string>$(EXECUTABLE_NAME)</string>
 		<key>CFBundleIdentifier</key>
@@ -23,9 +23,9 @@
 		<key>CFBundleVersion</key>
 		<string>1</string>
 		<key>LSRequiresIPhoneOS</key>
-		<true/>
+		<true />
 		<key>NSLocationWhenInUseUsageDescription</key>
-		<string/>
+		<string />
 		<key>UIAppFonts</key>
 		<array>
 		</array>
@@ -40,19 +40,19 @@
 			<string>UIInterfaceOrientationPortrait</string>
 		</array>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
-		<false/>
+		<false />
 		<key>ITSAppUsesNonExemptEncryption</key>
-		<false/>
+		<false />
 		<key>NSAppTransportSecurity</key>
 		<dict>
 			<key>NSAllowsArbitraryLoads</key>
-			<true/>
+			<true />
 			<key>NSExceptionDomains</key>
 			<dict>
 				<key>localhost</key>
 				<dict>
 					<key>NSExceptionAllowsInsecureHTTPLoads</key>
-					<true/>
+					<true />
 				</dict>
 			</dict>
 		</dict>
