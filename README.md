@@ -19,3 +19,34 @@
 - `yarn bootstrap`
 
 And project is ready :)
+
+## Overview
+
+- [Text](https://facebook.github.io/react-native/docs/text)
+- [View](https://facebook.github.io/react-native/docs/view)
+- [StyleSheet](https://facebook.github.io/react-native/docs/stylesheet)
+
+### Task 1
+
+Create and render list of items with [FlatList](https://facebook.github.io/react-native/docs/flatlist.html).
+
+### Task 2
+
+Fetch and render items from https://api.imgflip.com/get_memes API.
+
+### Task 3
+
+ - Create simple [stack navigator](https://reactnavigation.org/docs/en/stack-navigator-2.0.html#api-definition)
+ - Create 2 Scenes: One for listing and second one which will render item on which you clicked.
+
+### Task 4
+
+ - Create [TextInput](https://facebook.github.io/react-native/docs/textinput.html)
+ - Show typed text on Image
+ - Capture Image with Text on it. Use `react-native-view-shot`
+
+### Task 5
+ - Save / "Read" created meme. Use `react-native-fs`. In addition you can use `react-native-share` to share it through social media or save it on phone.
+
+### Task 6*
+ - Use PanGestureHandler from `react-native-gesture-handler` for Text positioning.
