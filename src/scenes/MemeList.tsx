@@ -1,39 +1,31 @@
-// @flow
+import React, { useEffect, useState } from 'react';
+import { Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-import React, { useEffect, useState } from 'react'
-import { Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import Api from '~/services/Api';
+import { primary } from '~/styles/colors';
 
-import Api from 'src/services/Api'
-import { primary } from 'src/styles/colors'
-
-const { width } = Dimensions.get('window')
+const { width } = Dimensions.get('window');
 
 type MemeType = {
-  box_count: number,
-  height: number,
-  id: string,
-  name: string,
-  url: string,
-  width: number,
-}
+  box_count: number;
+  height: number;
+  id: string;
+  name: string;
+  url: string;
+  width: number;
+};
 
-type Props = {
-  navigation: {
-    navigate: (string, { [string]: MemeType }) => boolean,
-  },
-}
-
-const App = ({ navigation }: Props) => {
-  const [memes, setMemes] = useState([])
+const App = ({ navigation }) => {
+  const [memes, setMemes] = useState([]);
 
   useEffect(() => {
-    fetchMemes()
-  }, [])
+    fetchMemes();
+  }, []);
 
   const fetchMemes = async () => {
-    const response = await Api.get('https://api.imgflip.com/get_memes')
-    setMemes(response.data?.memes || [])
-  }
+    const response = await Api.get('https://api.imgflip.com/get_memes');
+    setMemes(response.data!.memes || []);
+  };
 
   const renderItem = ({ item }: { item: MemeType }) => (
     <TouchableOpacity
@@ -48,7 +40,7 @@ const App = ({ navigation }: Props) => {
         style={styles.image}
       />
     </TouchableOpacity>
-  )
+  );
 
   return (
     <FlatList
@@ -57,12 +49,12 @@ const App = ({ navigation }: Props) => {
       numColumns={2}
       renderItem={renderItem}
     />
-  )
-}
+  );
+};
 
-export default App
+export default App;
 
-const IMAGE_SIZE = width / 2 - 20
+const IMAGE_SIZE = width / 2 - 20;
 
 const styles = StyleSheet.create({
   image: {
@@ -82,4 +74,4 @@ const styles = StyleSheet.create({
     color: primary,
     fontSize: 16,
   },
-})
+});

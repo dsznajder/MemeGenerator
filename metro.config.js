@@ -4,6 +4,7 @@
  *
  */
 
+// eslint-disable-next-line import/no-commonjs
 module.exports = {
   transformer: {
     getTransformOptions: async () => ({
