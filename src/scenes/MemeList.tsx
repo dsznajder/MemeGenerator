@@ -2,18 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 import Api from '~/services/Api';
+import objectKeysToCamelCase from '~/helpers/objectKeysToCamelCase';
+import { MemeType } from '~/types/scenes';
 import { primary } from '~/styles/colors';
 
 const { width } = Dimensions.get('window');
-
-type MemeType = {
-  box_count: number;
-  height: number;
-  id: string;
-  name: string;
-  url: string;
-  width: number;
-};
 
 const App = ({ navigation }) => {
   const [memes, setMemes] = useState([]);
@@ -24,7 +17,8 @@ const App = ({ navigation }) => {
 
   const fetchMemes = async () => {
     const response = await Api.get('https://api.imgflip.com/get_memes');
-    setMemes(response.data!.memes || []);
+    const parsedMemes = Object.values(objectKeysToCamelCase(response.data.memes || []));
+    setMemes(parsedMemes);
   };
 
   const renderItem = ({ item }: { item: MemeType }) => (

@@ -1,15 +1,17 @@
 import RNFS from 'react-native-fs';
-import React, { RefObject, useRef, useState } from 'react';
+import React, { RefObject, useReducer, useRef } from 'react';
 import {
   Button,
   Dimensions,
   Image,
   ImageBackground,
-  TextInput as Input,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
 } from 'react-native';
+import { range } from 'lodash';
+// import { PanGestureHandler } from 'react-native-gesture-handler';
 import { RouteProp } from '@react-navigation/core';
 
 /* eslint-disable import/default, import/no-unresolved, import/namespace */
@@ -20,6 +22,8 @@ import ViewShot from 'react-native-view-shot';
 import { RootParamList } from '~/types/scenes';
 import { black, primary, white } from '~/styles/colors';
 
+import { MemeCreatorActions, MemeCreatorState } from './types';
+
 const { width } = Dimensions.get('window');
 
 type MemeCreatorRouteProp = RouteProp<RootParamList, 'MemeCreator'>;
@@ -28,18 +32,44 @@ interface Props {
   route: MemeCreatorRouteProp;
 }
 
+const ACTION_TYPES: { setCreatedMeme: 'setCreatedMeme'; changeLine: 'changeLine' } = {
+  setCreatedMeme: 'setCreatedMeme',
+  changeLine: 'changeLine',
+};
+
+const reducer = (state: MemeCreatorState, action: MemeCreatorActions) => {
+  switch (action.type) {
+    case ACTION_TYPES.changeLine:
+      return {
+        ...state,
+        lines: state.lines.map((line, index) =>
+          index === action.payload.index ? action.payload.line : line,
+        ),
+      };
+
+    case ACTION_TYPES.setCreatedMeme:
+      return { ...state, createdMeme: action.payload };
+
+    default:
+      return state;
+  }
+};
+
 const MemeCreator = ({ route }: Props) => {
-  const [firstLine, setFirstLine] = useState('');
-  const [secondLine, setSecondLine] = useState('');
-  const [createdMeme, setCreatedMeme] = useState('');
   const { meme } = route.params;
+  const boxes = range(meme.boxCount);
+
+  const [{ createdMeme, lines }, dispatch] = useReducer(reducer, {
+    createdMeme: '',
+    lines: boxes.map(i => `${i + 1} line`),
+  });
   const viewShowRef: RefObject<ViewShot> = useRef();
   const imageStyle = { width: Math.min(meme.width, width), height: Math.min(meme.height, width) };
 
   const saveMeme = () => {
     viewShowRef.current.capture().then(path => {
       RNFS.readFile(path, 'base64').then(image => {
-        setCreatedMeme(`data:image/jpg;base64,${image}`);
+        dispatch({ type: ACTION_TYPES.setCreatedMeme, payload: `data:image/jpg;base64,${image}` });
       });
     });
   };
@@ -63,14 +93,31 @@ const MemeCreator = ({ route }: Props) => {
         </>
       ) : (
         <>
-          <Input placeholder="First line" onChangeText={setFirstLine} value={firstLine} />
           <ViewShot options={{ format: 'jpg', quality: 0.9 }} ref={viewShowRef}>
             <ImageBackground source={{ uri: meme.url }} style={imageStyle}>
-              <Text style={[styles.text, styles.firstLine]}>{firstLine}</Text>
-              <Text style={[styles.text, styles.secondLine]}>{secondLine}</Text>
+              {lines.map(line => (
+                <Text key={line} style={styles.text}>
+                  {line}
+                </Text>
+              ))}
             </ImageBackground>
           </ViewShot>
-          <Input placeholder="Second line" onChangeText={setSecondLine} value={secondLine} />
+          {boxes.map((line, index) => (
+            <TextInput
+              key={line}
+              value={lines[index]}
+              placeholder={`${line}`}
+              onChangeText={text =>
+                dispatch({
+                  type: ACTION_TYPES.changeLine,
+                  payload: {
+                    line: text,
+                    index,
+                  },
+                })
+              }
+            />
+          ))}
           <Button color={primary} onPress={saveMeme} title="Zapisz mem" />
         </>
       )}
@@ -84,16 +131,6 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     padding: 20,
-  },
-  firstLine: {
-    flex: 1,
-    justifyContent: 'flex-start',
-  },
-  secondLine: {
-    alignSelf: 'center',
-    bottom: 0,
-    flex: 1,
-    position: 'absolute',
   },
   text: {
     color: white,
