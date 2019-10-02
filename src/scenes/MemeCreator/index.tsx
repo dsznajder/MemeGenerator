@@ -1,5 +1,7 @@
 import RNFS from 'react-native-fs';
 import React, { RefObject, useReducer, useRef } from 'react';
+import Share from 'react-native-share';
+import ViewShot from 'react-native-view-shot';
 import {
   Button,
   Dimensions,
@@ -10,14 +12,9 @@ import {
   Text,
   TextInput,
 } from 'react-native';
-import { range } from 'lodash';
-// import { PanGestureHandler } from 'react-native-gesture-handler';
+import { PanGestureHandler } from 'react-native-gesture-handler';
 import { RouteProp } from '@react-navigation/core';
-
-/* eslint-disable import/default, import/no-unresolved, import/namespace */
-import Share from 'react-native-share';
-import ViewShot from 'react-native-view-shot';
-/* eslint-enable */
+import { range } from 'lodash';
 
 import { RootParamList } from '~/types/scenes';
 import { black, primary, white } from '~/styles/colors';
@@ -96,9 +93,9 @@ const MemeCreator = ({ route }: Props) => {
           <ViewShot options={{ format: 'jpg', quality: 0.9 }} ref={viewShowRef}>
             <ImageBackground source={{ uri: meme.url }} style={imageStyle}>
               {lines.map(line => (
-                <Text key={line} style={styles.text}>
-                  {line}
-                </Text>
+                <PanGestureHandler key={line}>
+                  <Text style={styles.text}>{line}</Text>
+                </PanGestureHandler>
               ))}
             </ImageBackground>
           </ViewShot>

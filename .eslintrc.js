@@ -1,6 +1,6 @@
 module.exports = {
-  plugins: ['jest', 'react-native', 'sort-imports-es6-autofix'],
-  extends: ['satya164', 'plugin:jest/recommended', 'plugin:react-native/all'],
+  plugins: ['sort-imports-es6-autofix'],
+  extends: ['satya164'],
   env: {
     browser: true,
     node: true,
@@ -11,15 +11,19 @@ module.exports = {
     },
     'import/resolver': {
       node: {
-        extensions: ['.tsx', '.android.tsx', '.ios.tsx', '.native.js'],
+        extensions: ['.tsx', '.js', '.android.tsx', '.ios.tsx', '.native.js'],
       },
     },
   },
   rules: {
-    'import/first': ['error', 'always'],
-    'import/no-duplicates': ['error', 'always'],
     'import/no-unresolved': ['error', { caseSensitive: true, ignore: ['^~/'] }],
-    'jest/consistent-test-it': ['error', { fn: 'test', withinDescribe: 'test' }],
+    'import/order': [
+      'error',
+      {
+        'newlines-between': 'always-and-inside-groups',
+        groups: ['builtin', 'external', 'unknown', 'internal', 'parent', 'index', 'sibling'],
+      },
+    ],
     'sort-imports-es6-autofix/sort-imports-es6': [
       'error',
       {

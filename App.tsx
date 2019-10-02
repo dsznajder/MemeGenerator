@@ -7,7 +7,9 @@ import MemeCreator from './src/scenes/MemeCreator';
 import MemeList from './src/scenes/MemeList';
 import { RootParamList } from './src/types/scenes';
 
+/* eslint-disable react-hooks/rules-of-hooks */
 useScreens();
+/* eslint-enable react-hooks/rules-of-hooks */
 
 const Stack = createStackNavigator<RootParamList>();
 
