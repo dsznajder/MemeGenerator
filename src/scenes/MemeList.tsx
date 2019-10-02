@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import {
+  Dimensions,
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 
 import Api from '~/services/Api';
 import objectKeysToCamelCase from '~/helpers/objectKeysToCamelCase';
@@ -17,7 +24,9 @@ const App = ({ navigation }) => {
 
   const fetchMemes = async () => {
     const response = await Api.get('https://api.imgflip.com/get_memes');
-    const parsedMemes = Object.values(objectKeysToCamelCase(response.data.memes || []));
+    const parsedMemes = Object.values(
+      objectKeysToCamelCase(response.data.memes || []),
+    );
     setMemes(parsedMemes);
   };
 
@@ -28,8 +37,7 @@ const App = ({ navigation }) => {
     >
       <Text style={styles.name}>{item.name}</Text>
       <Image
-        resizeMethod="scale"
-        resizeMode="cover"
+        resizeMode="stretch"
         source={{ uri: item.url }}
         style={styles.image}
       />

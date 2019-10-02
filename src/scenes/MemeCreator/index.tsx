@@ -1,3 +1,4 @@
+import Animated from 'react-native-reanimated';
 import RNFS from 'react-native-fs';
 import React, { RefObject, useReducer, useRef } from 'react';
 import Share from 'react-native-share';
@@ -14,6 +15,7 @@ import {
 } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import { RouteProp } from '@react-navigation/core';
+import { onGestureEvent } from 'react-native-redash';
 import { range } from 'lodash';
 
 import { RootParamList } from '~/types/scenes';
@@ -29,7 +31,10 @@ interface Props {
   route: MemeCreatorRouteProp;
 }
 
-const ACTION_TYPES: { setCreatedMeme: 'setCreatedMeme'; changeLine: 'changeLine' } = {
+const ACTION_TYPES: {
+  setCreatedMeme: 'setCreatedMeme';
+  changeLine: 'changeLine';
+} = {
   setCreatedMeme: 'setCreatedMeme',
   changeLine: 'changeLine',
 };
@@ -53,20 +58,39 @@ const reducer = (state: MemeCreatorState, action: MemeCreatorActions) => {
 };
 
 const MemeCreator = ({ route }: Props) => {
+  const viewShowRef: RefObject<ViewShot> = useRef();
   const { meme } = route.params;
   const boxes = range(meme.boxCount);
-
   const [{ createdMeme, lines }, dispatch] = useReducer(reducer, {
     createdMeme: '',
     lines: boxes.map(i => `${i + 1} line`),
   });
-  const viewShowRef: RefObject<ViewShot> = useRef();
-  const imageStyle = { width: Math.min(meme.width, width), height: Math.min(meme.height, width) };
+  const gestureHandlers = useRef(
+    boxes.map(() => {
+      const translationX = new Animated.Value(0);
+      const translationY = new Animated.Value(0);
+      const gestureEvent = onGestureEvent({ translationY, translationX });
+      return {
+        translationX,
+        translationY,
+        gestureEvent,
+      };
+    }),
+  );
+
+  const imageWidth = Math.min(meme.width, width - 20);
+  const imageStyle = {
+    width: imageWidth,
+    height: imageWidth * (meme.height / meme.width),
+  };
 
   const saveMeme = () => {
     viewShowRef.current.capture().then(path => {
       RNFS.readFile(path, 'base64').then(image => {
-        dispatch({ type: ACTION_TYPES.setCreatedMeme, payload: `data:image/jpg;base64,${image}` });
+        dispatch({
+          type: ACTION_TYPES.setCreatedMeme,
+          payload: `data:image/jpg;base64,${image}`,
+        });
       });
     });
   };
@@ -85,18 +109,45 @@ const MemeCreator = ({ route }: Props) => {
     <ScrollView contentContainerStyle={styles.container}>
       {createdMeme ? (
         <>
-          <Image source={{ uri: createdMeme }} style={imageStyle} />
+          <Image
+            resizeMode="contain"
+            source={{ uri: createdMeme }}
+            style={imageStyle}
+          />
           <Button title="Udostępnij" color={primary} onPress={shareMeme} />
         </>
       ) : (
         <>
           <ViewShot options={{ format: 'jpg', quality: 0.9 }} ref={viewShowRef}>
-            <ImageBackground source={{ uri: meme.url }} style={imageStyle}>
-              {lines.map(line => (
-                <PanGestureHandler key={line}>
-                  <Text style={styles.text}>{line}</Text>
-                </PanGestureHandler>
-              ))}
+            <ImageBackground
+              resizeMode="contain"
+              source={{ uri: meme.url }}
+              style={imageStyle}
+            >
+              {lines.map((line, index) => {
+                const {
+                  gestureEvent,
+                  translationX,
+                  translationY,
+                } = gestureHandlers.current[index];
+                return (
+                  <PanGestureHandler {...gestureEvent} key={line}>
+                    <Animated.View
+                      style={[
+                        styles.textContainer,
+                        {
+                          transform: [
+                            { translateX: translationX },
+                            { translateY: translationY },
+                          ],
+                        },
+                      ]}
+                    >
+                      <Text style={styles.text}>{line}</Text>
+                    </Animated.View>
+                  </PanGestureHandler>
+                );
+              })}
             </ImageBackground>
           </ViewShot>
           {boxes.map((line, index) => (
@@ -135,5 +186,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textShadowColor: black,
     textShadowRadius: 4,
+  },
+  textContainer: {
+    position: 'absolute',
   },
 });
