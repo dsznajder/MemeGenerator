@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import { RouteProp } from '@react-navigation/core';
-import { onGestureEvent } from 'react-native-redash';
+import { clamp, onGestureEvent, withOffset } from 'react-native-redash';
 import { range } from 'lodash';
 
 import { RootParamList } from '~/types/scenes';
@@ -60,29 +60,43 @@ const reducer = (state: MemeCreatorState, action: MemeCreatorActions) => {
 const MemeCreator = ({ route }: Props) => {
   const viewShowRef: RefObject<ViewShot> = useRef();
   const { meme } = route.params;
-  const boxes = range(meme.boxCount);
+  const boxes = useRef(range(meme.boxCount));
   const [{ createdMeme, lines }, dispatch] = useReducer(reducer, {
     createdMeme: '',
-    lines: boxes.map(i => `${i + 1} line`),
+    lines: boxes.current.map(i => `${i + 1} line`),
   });
+  const imageWidth = useRef(Math.min(meme.width, width - 20));
+  const imageHeight = useRef(imageWidth.current * (meme.height / meme.width));
+  const imageStyle = {
+    width: imageWidth.current,
+    height: imageHeight.current,
+  };
+
   const gestureHandlers = useRef(
-    boxes.map(() => {
+    boxes.current.map(index => {
+      const state = new Animated.Value(0);
       const translationX = new Animated.Value(0);
       const translationY = new Animated.Value(0);
-      const gestureEvent = onGestureEvent({ translationY, translationX });
-      return {
-        translationX,
+      const gestureEvent = onGestureEvent({
+        state,
         translationY,
+        translationX,
+      });
+      return {
+        translateY: clamp(
+          withOffset(translationY, state),
+          -10 - index * 30,
+          imageHeight.current - (index + 1) * 30,
+        ),
+        translateX: clamp(
+          withOffset(translationX, state),
+          -imageWidth.current / 2,
+          imageWidth.current / 2,
+        ),
         gestureEvent,
       };
     }),
   );
-
-  const imageWidth = Math.min(meme.width, width - 20);
-  const imageStyle = {
-    width: imageWidth,
-    height: imageWidth * (meme.height / meme.width),
-  };
 
   const saveMeme = () => {
     viewShowRef.current.capture().then(path => {
@@ -124,33 +138,32 @@ const MemeCreator = ({ route }: Props) => {
               source={{ uri: meme.url }}
               style={imageStyle}
             >
-              {lines.map((line, index) => {
+              {boxes.current.map(index => {
                 const {
                   gestureEvent,
-                  translationX,
-                  translationY,
+                  translateY,
+                  translateX,
                 } = gestureHandlers.current[index];
                 return (
-                  <PanGestureHandler {...gestureEvent} key={line}>
+                  <PanGestureHandler {...gestureEvent} key={index}>
                     <Animated.View
                       style={[
                         styles.textContainer,
                         {
-                          transform: [
-                            { translateX: translationX },
-                            { translateY: translationY },
-                          ],
+                          top: index * 30,
+                          transform: [{ translateX }, { translateY }],
                         },
                       ]}
                     >
-                      <Text style={styles.text}>{line}</Text>
+                      <Text style={styles.text}>{lines[index]}</Text>
                     </Animated.View>
                   </PanGestureHandler>
                 );
               })}
             </ImageBackground>
           </ViewShot>
-          {boxes.map((line, index) => (
+
+          {boxes.current.map((line, index) => (
             <TextInput
               key={line}
               value={lines[index]}
@@ -188,6 +201,7 @@ const styles = StyleSheet.create({
     textShadowRadius: 4,
   },
   textContainer: {
+    alignSelf: 'center',
     position: 'absolute',
   },
 });
