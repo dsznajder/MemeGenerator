@@ -21,7 +21,15 @@ module.exports = {
       'error',
       {
         'newlines-between': 'always-and-inside-groups',
-        groups: ['builtin', 'external', 'unknown', 'internal', 'parent', 'index', 'sibling'],
+        groups: [
+          'builtin',
+          'external',
+          'unknown',
+          'internal',
+          'parent',
+          'index',
+          'sibling',
+        ],
       },
     ],
     'sort-imports-es6-autofix/sort-imports-es6': [

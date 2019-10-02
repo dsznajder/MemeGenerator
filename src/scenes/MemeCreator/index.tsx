@@ -147,6 +147,7 @@ const MemeCreator = ({ route }: Props) => {
                 return (
                   <PanGestureHandler {...gestureEvent} key={index}>
                     <Animated.View
+                      // @ts-ignore
                       style={[
                         styles.textContainer,
                         {

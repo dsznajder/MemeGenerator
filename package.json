@@ -13,6 +13,7 @@
     "coverage": "open coverage/lcov-report/index.html",
     "ios": "yarn react-native run-ios --simulator='iPhone 11'",
     "lint": "eslint --ext '.ts,.tsx' .",
+    "typescript": "tsc --noEmit",
     "postinstall": "./scripts/postinstall.sh",
     "start": "react-native start",
     "test": "jest -u",
@@ -81,7 +82,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged && yarn typescript"
     }
   },
   "lint-staged": {
