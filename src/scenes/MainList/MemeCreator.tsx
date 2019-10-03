@@ -1,4 +1,5 @@
 import Animated from 'react-native-reanimated';
+import FastImage from 'react-native-fast-image';
 import RNFS from 'react-native-fs';
 import React, { RefObject, useReducer, useRef } from 'react';
 import Share from 'react-native-share';
@@ -6,26 +7,34 @@ import ViewShot from 'react-native-view-shot';
 import {
   Button,
   Dimensions,
-  Image,
   ImageBackground,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
 } from 'react-native';
-import { PanGestureHandler } from 'react-native-gesture-handler';
-import { RouteProp } from '@react-navigation/core';
-import { clamp, onGestureEvent, withOffset } from 'react-native-redash';
+import {
+  PanGestureHandler,
+  PinchGestureHandler,
+  ScrollView,
+} from 'react-native-gesture-handler';
+import {
+  clamp,
+  onGestureEvent,
+  preserveMultiplicativeOffset,
+  withOffset,
+} from 'react-native-redash';
 import { range } from 'lodash';
 
-import { RootParamList } from '~/types/scenes';
 import { black, primary, white } from '~/styles/colors';
 
-import { MemeCreatorActions, MemeCreatorState } from './types';
+import {
+  MemeCreatorActions,
+  MemeCreatorRouteProp,
+  MemeCreatorState,
+} from './types';
 
 const { width } = Dimensions.get('window');
-
-type MemeCreatorRouteProp = RouteProp<RootParamList, 'MemeCreator'>;
+const { Value } = Animated;
 
 interface Props {
   route: MemeCreatorRouteProp;
@@ -71,29 +80,46 @@ const MemeCreator = ({ route }: Props) => {
     width: imageWidth.current,
     height: imageHeight.current,
   };
+  const panRefs = boxes.current.map(useRef);
+  const pinchRefs = boxes.current.map(useRef);
 
   const gestureHandlers = useRef(
     boxes.current.map(index => {
-      const state = new Animated.Value(0);
-      const translationX = new Animated.Value(0);
-      const translationY = new Animated.Value(0);
-      const gestureEvent = onGestureEvent({
-        state,
+      const panState = new Value(0);
+      const pinchState = new Value(0);
+      const translationX = new Value(0);
+      const translationY = new Value(0);
+      const pinchScale = new Value(1);
+      const panGestureEvent = onGestureEvent({
+        state: panState,
         translationY,
         translationX,
       });
+      const pinchGestureEvent = onGestureEvent({
+        state: pinchState,
+        scale: pinchScale,
+      });
+
       return {
         translateY: clamp(
-          withOffset(translationY, state),
+          withOffset(translationY, panState),
           -10 - index * 30,
           imageHeight.current - (index + 1) * 30,
         ),
         translateX: clamp(
-          withOffset(translationX, state),
+          withOffset(translationX, panState),
           -imageWidth.current / 2,
           imageWidth.current / 2,
         ),
-        gestureEvent,
+        scale: clamp(
+          preserveMultiplicativeOffset(pinchScale, pinchState),
+          1,
+          3,
+        ),
+        panGestureEvent,
+        panRef: panRefs[index],
+        pinchGestureEvent,
+        pinchRef: pinchRefs[index],
       };
     }),
   );
@@ -123,10 +149,10 @@ const MemeCreator = ({ route }: Props) => {
     <ScrollView contentContainerStyle={styles.container}>
       {createdMeme ? (
         <>
-          <Image
-            resizeMode="contain"
-            source={{ uri: createdMeme }}
+          <FastImage
             style={imageStyle}
+            source={{ uri: createdMeme }}
+            resizeMode={FastImage.resizeMode.contain}
           />
           <Button title="Udostępnij" color={primary} onPress={shareMeme} />
         </>
@@ -140,23 +166,43 @@ const MemeCreator = ({ route }: Props) => {
             >
               {boxes.current.map(index => {
                 const {
-                  gestureEvent,
+                  panGestureEvent,
+                  pinchGestureEvent,
                   translateY,
                   translateX,
+                  scale,
+                  panRef,
+                  pinchRef,
                 } = gestureHandlers.current[index];
                 return (
-                  <PanGestureHandler {...gestureEvent} key={index}>
-                    <Animated.View
-                      // @ts-ignore
-                      style={[
-                        styles.textContainer,
-                        {
-                          top: index * 30,
-                          transform: [{ translateX }, { translateY }],
-                        },
-                      ]}
-                    >
-                      <Text style={styles.text}>{lines[index]}</Text>
+                  <PanGestureHandler
+                    {...panGestureEvent}
+                    key={index}
+                    avgTouches
+                    simultaneousHandlers={pinchRef}
+                  >
+                    <Animated.View>
+                      <PinchGestureHandler
+                        {...pinchGestureEvent}
+                        simultaneousHandlers={panRef}
+                      >
+                        <Animated.View
+                          // @ts-ignore
+                          style={[
+                            styles.textContainer,
+                            {
+                              top: index * 30,
+                              transform: [
+                                { translateX },
+                                { translateY },
+                                { scale },
+                              ],
+                            },
+                          ]}
+                        >
+                          <Text style={styles.text}>{lines[index]}</Text>
+                        </Animated.View>
+                      </PinchGestureHandler>
                     </Animated.View>
                   </PanGestureHandler>
                 );

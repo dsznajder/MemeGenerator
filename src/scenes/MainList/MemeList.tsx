@@ -1,8 +1,8 @@
+import FastImage from 'react-native-fast-image';
 import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
   FlatList,
-  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -10,6 +10,7 @@ import {
 
 import Api from '~/services/Api';
 import objectKeysToCamelCase from '~/helpers/objectKeysToCamelCase';
+
 import { MemeType } from '~/types/scenes';
 import { primary } from '~/styles/colors';
 
@@ -36,9 +37,9 @@ const App = ({ navigation }) => {
       style={styles.item}
     >
       <Text style={styles.name}>{item.name}</Text>
-      <Image
-        resizeMode="stretch"
-        source={{ uri: item.url }}
+      <FastImage
+        resizeMode={FastImage.resizeMode.stretch}
+        source={{ cache: FastImage.cacheControl.immutable, uri: item.url }}
         style={styles.image}
       />
     </TouchableOpacity>

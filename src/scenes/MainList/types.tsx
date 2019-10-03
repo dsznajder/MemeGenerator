@@ -1,3 +1,10 @@
+import { RouteProp } from '@react-navigation/core';
+
+import { StackParamList } from '~/types/scenes';
+
+export type MemeCreatorRouteProp = RouteProp<StackParamList, 'MemeCreator'>;
+
+// Local Reducer
 export type MemeCreatorState = {
   lines: Array<string>;
   createdMeme: string;

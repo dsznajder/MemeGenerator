@@ -7,9 +7,15 @@ export type MemeType = {
   width: number;
 };
 
-export type RootParamList = {
+export type StackParamList = {
   MemeList: undefined;
   MemeCreator: {
     meme: MemeType;
   };
+};
+
+export type BottomTabParamList = {
+  List: undefined;
+  Favourites: undefined;
+  Custom: undefined;
 };

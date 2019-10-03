@@ -932,10 +932,18 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.1.tgz#dbcfc5ec08efbb02d4142dd9426c8d7a396829d7"
   integrity sha512-EyJVSbarZkOPYq+zCZLx9apMcpwkX9HvH6R+6CeVL29q88kEFemnLO/IhmE4YX/0MfalsduI8eTi7fuQh/5VeA==
 
-"@react-navigation/core@5.0.0-alpha.10":
+"@react-navigation/bottom-tabs@5.0.0-alpha.10":
   version "5.0.0-alpha.10"
-  resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-5.0.0-alpha.10.tgz#4e1010d30c758ab283c8e3a79231c7ee98af807f"
-  integrity sha512-dZPC9A3LIntaEbTp+/vm1Ee/r50Er44aNhmrW7PMA3T/AQtNVnJsgV3ff3ZhCf2wM2/J7Z3K/BAU5zZ1tvKsqA==
+  resolved "https://registry.yarnpkg.com/@react-navigation/bottom-tabs/-/bottom-tabs-5.0.0-alpha.10.tgz#44e853188fe6d565cfbb76a7459c576889465561"
+  integrity sha512-NeICVZPPx85noku6d5cwoDJuJ804oR6opcDLjc6LNUBp3Vf+DFvrZoycfEMNgjXU9KDE4QO015IW0YpDg2Rd0g==
+  dependencies:
+    "@react-navigation/routers" "^5.0.0-alpha.8"
+    react-native-safe-area-view "^0.14.6"
+
+"@react-navigation/core@5.0.0-alpha.11":
+  version "5.0.0-alpha.11"
+  resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-5.0.0-alpha.11.tgz#23575a190e314d6a17fb610cc8ed3fbce8cbfce0"
+  integrity sha512-KeM+JYaPDkQRf0fbZs8hukqE/Afk3e89eVF2ThZYfplkSuCszLWkqozNSQ3sISufO3TxzSSN7fAr3EE2wKMp3Q==
   dependencies:
     escape-string-regexp "^2.0.0"
     query-string "^6.8.3"
@@ -947,19 +955,19 @@
   resolved "https://registry.yarnpkg.com/@react-navigation/native/-/native-5.0.0-alpha.8.tgz#771ee6b48e539ca420453dc1e3efbf41e2f9f9e4"
   integrity sha512-eZnoaj/LTxF6hywK1EXCJAlDZDhh/We6JSVyN6Whrkbw7jrTVL8NJdMXn8txp8fvFWvWMduSx5SOavWBAfmJMA==
 
-"@react-navigation/routers@^5.0.0-alpha.7":
-  version "5.0.0-alpha.7"
-  resolved "https://registry.yarnpkg.com/@react-navigation/routers/-/routers-5.0.0-alpha.7.tgz#7cbe052c270da8922d6f9dc541b96b64d6849fc0"
-  integrity sha512-AMTYj+9c/4846yl1QxJ8GvojqmL17C5VVI1yDonb5YYgV+XaWcMFk5luour8S8WnYtBn6pGvLeRH9AurUYSMmA==
+"@react-navigation/routers@^5.0.0-alpha.8":
+  version "5.0.0-alpha.8"
+  resolved "https://registry.yarnpkg.com/@react-navigation/routers/-/routers-5.0.0-alpha.8.tgz#66438f36b4c3360a9653a7b9115a0e25446ae67e"
+  integrity sha512-UMWJLpLrKi6xI/p0k4uvP9pMkBSYOjaSuNLxlpqRk5PuINybojhAZgu3HRWTDs1wG+ZzeETv/3RmnpoopLzYWg==
   dependencies:
     shortid "^2.2.14"
 
-"@react-navigation/stack@5.0.0-alpha.19":
-  version "5.0.0-alpha.19"
-  resolved "https://registry.yarnpkg.com/@react-navigation/stack/-/stack-5.0.0-alpha.19.tgz#09e7d68b2ab90deb4224fc4d8baefae49a20a3c8"
-  integrity sha512-wyRmuYF852LpfhM+Ni7/Gfu1ZZed2VRGnqu5GOOQTq7P4Nr0FzX9K95XswB6CVsRkRuES6aEe8pBI79gTK/9XA==
+"@react-navigation/stack@5.0.0-alpha.20":
+  version "5.0.0-alpha.20"
+  resolved "https://registry.yarnpkg.com/@react-navigation/stack/-/stack-5.0.0-alpha.20.tgz#62042540e25615ca38203c632b527737dcf84990"
+  integrity sha512-L81dp2rzwilzdz0KqkAtg0pVVEb39Gxhsb4bzL3QGLw0e/AYVNAEB8pkrMeBmZDUUr6xZsp6Lum7k6/IwvBUWQ==
   dependencies:
-    "@react-navigation/routers" "^5.0.0-alpha.7"
+    "@react-navigation/routers" "^5.0.0-alpha.8"
     react-native-safe-area-view "^0.14.6"
 
 "@samverschueren/stream-to-observable@^0.3.0":
@@ -5971,6 +5979,11 @@ react-is@^16.8.1, react-is@^16.8.4, react-is@^16.9.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.9.0.tgz#21ca9561399aad0ff1a7701c01683e8ca981edcb"
   integrity sha512-tJBzzzIgnnRfEm046qRcURvwQnZVXmuCbscxUO5RWrGTXpon2d4c8mI0D8WE6ydVIm29JiLB6+RslkIvym9Rjw==
 
+react-native-fast-image@7.0.2:
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-7.0.2.tgz#e06b21f42f4a9786eaa86f3db35d919070fb8403"
+  integrity sha512-MfuzJbC0RjYobR2gFCdqe1I7jvNOCfDkjQ7VGOHXniqjohhULMkcWNBE9Umovi9Dx93lJ6t5utcE2wf/09zvlg==
+
 react-native-fs@2.14.1:
   version "2.14.1"
   resolved "https://registry.yarnpkg.com/react-native-fs/-/react-native-fs-2.14.1.tgz#61c70a865b5b5bcb020dd4e4befd60a2c20c836f"
@@ -6037,10 +6050,10 @@ react-native-view-shot@3.0.2:
   resolved "https://registry.yarnpkg.com/react-native-view-shot/-/react-native-view-shot-3.0.2.tgz#daccaec5b8038a680b17533ff7e72876e68c7d0d"
   integrity sha512-JZOkGo2jzSX2b7N6N2uDr0wQjSz+QmBtY8jzeo0XJY6bLOfaY5nmWyYxDmDRoSpKiFkGTCkyhUqNnjo6lXOtEw==
 
-react-native@0.61.1:
-  version "0.61.1"
-  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.61.1.tgz#ac2559f78f9e689356fedfa93159026a25313d7d"
-  integrity sha512-FjOhAgzjrPr2BjBITmCY+SHzWxfP/bv5ve3oN6ItoIPsVPjJG2QZE8yeByVdI4TzaZrGHU4Ag7/7hX4j39cj2Q==
+react-native@0.61.2:
+  version "0.61.2"
+  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.61.2.tgz#987b91b063557f8ebec803fdfea2044a24bdbe4d"
+  integrity sha512-hhd8bYbkkZYHoOndxUwbjJ6Yd9HFn5PvwqqS41uJ1xADdw44rx/svuwmJNA1RKF7jH74uR2jpBViWYGd36zGyg==
   dependencies:
     "@babel/runtime" "^7.0.0"
     "@react-native-community/cli" "^3.0.0-alpha.1"
