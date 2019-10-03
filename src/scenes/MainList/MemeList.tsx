@@ -1,10 +1,12 @@
 import FastImage from 'react-native-fast-image';
-import React, { useEffect, useState } from 'react';
+import Fuse from 'fuse.js';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Dimensions,
   FlatList,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
 } from 'react-native';
 
@@ -16,8 +18,18 @@ import { primary } from '~/styles/colors';
 
 const { width } = Dimensions.get('window');
 
+const fuseOptions = {
+  keys: ['name'],
+  maxPatternLength: 32,
+  minMatchCharLength: 1,
+  shouldSort: true,
+  threshold: 0.4,
+};
+
 const App = ({ navigation }) => {
   const [memes, setMemes] = useState([]);
+  const [searchText, setSearchText] = useState('');
+  const fuseMemes = useRef(new Fuse([], fuseOptions));
 
   useEffect(() => {
     fetchMemes();
@@ -28,6 +40,7 @@ const App = ({ navigation }) => {
     const parsedMemes = Object.values(
       objectKeysToCamelCase(response.data.memes || []),
     );
+    fuseMemes.current = new Fuse(parsedMemes, fuseOptions);
     setMemes(parsedMemes);
   };
 
@@ -46,12 +59,23 @@ const App = ({ navigation }) => {
   );
 
   return (
-    <FlatList
-      contentContainerStyle={styles.list}
-      data={memes}
-      numColumns={2}
-      renderItem={renderItem}
-    />
+    <>
+      <TextInput
+        autoCorrect={false}
+        autoCapitalize="none"
+        autoCompleteType="off"
+        placeholder="Szukaj"
+        onChangeText={setSearchText}
+      />
+
+      <FlatList
+        keyExtractor={({ id, item }) => (item ? item.id : id)}
+        contentContainerStyle={styles.list}
+        data={searchText ? fuseMemes.current.search(searchText) : memes}
+        numColumns={2}
+        renderItem={renderItem}
+      />
+    </>
   );
 };
 
