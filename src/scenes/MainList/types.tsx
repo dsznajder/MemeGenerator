@@ -8,6 +8,7 @@ export type MemeCreatorRouteProp = RouteProp<StackParamList, 'MemeCreator'>;
 export type MemeCreatorState = {
   lines: Array<string>;
   createdMeme: string;
+  favourite?: boolean;
 };
 
 type SetCreatedMemeAction = {
@@ -15,7 +16,11 @@ type SetCreatedMemeAction = {
   payload: string;
 };
 
-type AddLineAction = {
+type ToggleFavouriteAction = {
+  type: 'toggleFavourite';
+};
+
+type ChangeLineAction = {
   type: 'changeLine';
   payload: {
     line: string;
@@ -23,4 +28,7 @@ type AddLineAction = {
   };
 };
 
-export type MemeCreatorActions = SetCreatedMemeAction | AddLineAction;
+export type MemeCreatorActions =
+  | SetCreatedMemeAction
+  | ChangeLineAction
+  | ToggleFavouriteAction;

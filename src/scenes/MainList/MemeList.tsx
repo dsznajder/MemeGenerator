@@ -13,6 +13,7 @@ import {
 import Api from '~/services/Api';
 import objectKeysToCamelCase from '~/helpers/objectKeysToCamelCase';
 
+import Storage from '~/services/Storage';
 import { MemeType } from '~/types/scenes';
 import { primary } from '~/styles/colors';
 
@@ -37,10 +38,21 @@ const App = ({ navigation }) => {
 
   const fetchMemes = async () => {
     const response = await Api.get('https://api.imgflip.com/get_memes');
-    const parsedMemes = Object.values(
+    const favouriteIds: Array<string> = JSON.parse(
+      await Storage.get(Storage.keys.favouriteIds),
+    );
+    const memes = Object.values<MemeType>(
       objectKeysToCamelCase(response.data.memes || []),
     );
+
+    const parsedMemes = favouriteIds
+      ? memes.map(meme =>
+          favouriteIds.includes(meme.id) ? { favourite: true, ...meme } : meme,
+        )
+      : memes;
+
     fuseMemes.current = new Fuse(parsedMemes, fuseOptions);
+
     setMemes(parsedMemes);
   };
 

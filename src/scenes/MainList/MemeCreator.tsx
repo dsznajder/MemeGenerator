@@ -5,6 +5,12 @@ import React, { RefObject, useReducer, useRef } from 'react';
 import Share from 'react-native-share';
 import ViewShot from 'react-native-view-shot';
 import {
+  BaseButton,
+  PanGestureHandler,
+  PinchGestureHandler,
+  ScrollView,
+} from 'react-native-gesture-handler';
+import {
   Button,
   Dimensions,
   ImageBackground,
@@ -13,11 +19,6 @@ import {
   TextInput,
 } from 'react-native';
 import {
-  PanGestureHandler,
-  PinchGestureHandler,
-  ScrollView,
-} from 'react-native-gesture-handler';
-import {
   clamp,
   onGestureEvent,
   preserveMultiplicativeOffset,
@@ -25,6 +26,8 @@ import {
 } from 'react-native-redash';
 import { range } from 'lodash';
 
+import Icon from '~/components/Icon';
+import Storage from '~/services/Storage';
 import { black, primary, white } from '~/styles/colors';
 
 import {
@@ -43,9 +46,11 @@ interface Props {
 const ACTION_TYPES: {
   setCreatedMeme: 'setCreatedMeme';
   changeLine: 'changeLine';
+  toggleFavourite: 'toggleFavourite';
 } = {
   setCreatedMeme: 'setCreatedMeme',
   changeLine: 'changeLine',
+  toggleFavourite: 'toggleFavourite',
 };
 
 const reducer = (state: MemeCreatorState, action: MemeCreatorActions) => {
@@ -61,6 +66,9 @@ const reducer = (state: MemeCreatorState, action: MemeCreatorActions) => {
     case ACTION_TYPES.setCreatedMeme:
       return { ...state, createdMeme: action.payload };
 
+    case ACTION_TYPES.toggleFavourite:
+      return { ...state, favourite: !state.favourite };
+
     default:
       return state;
   }
@@ -70,18 +78,20 @@ const MemeCreator = ({ route }: Props) => {
   const viewShowRef: RefObject<ViewShot> = useRef();
   const { meme } = route.params;
   const boxes = useRef(range(meme.boxCount));
-  const [{ createdMeme, lines }, dispatch] = useReducer(reducer, {
+  const panRefs = boxes.current.map(useRef);
+  const pinchRefs = boxes.current.map(useRef);
+  const [{ createdMeme, lines, favourite }, dispatch] = useReducer(reducer, {
     createdMeme: '',
+    favourite: meme.favourite,
     lines: boxes.current.map(i => `${i + 1} line`),
   });
+
   const imageWidth = useRef(Math.min(meme.width, width - 20));
   const imageHeight = useRef(imageWidth.current * (meme.height / meme.width));
   const imageStyle = {
     width: imageWidth.current,
     height: imageHeight.current,
   };
-  const panRefs = boxes.current.map(useRef);
-  const pinchRefs = boxes.current.map(useRef);
 
   const gestureHandlers = useRef(
     boxes.current.map(index => {
@@ -124,6 +134,15 @@ const MemeCreator = ({ route }: Props) => {
     }),
   );
 
+  const toggleFavourite = () => {
+    if (favourite) {
+      Storage.removeFromArray(Storage.keys.favouriteIds, meme.id);
+    } else {
+      Storage.addToArray(Storage.keys.favouriteIds, meme.id);
+    }
+    dispatch({ type: ACTION_TYPES.toggleFavourite });
+  };
+
   const saveMeme = () => {
     viewShowRef.current.capture().then(path => {
       RNFS.readFile(path, 'base64').then(image => {
@@ -147,6 +166,14 @@ const MemeCreator = ({ route }: Props) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <BaseButton onPress={toggleFavourite}>
+        <Icon
+          name={favourite ? 'heart' : 'heart-outlined'}
+          color="red"
+          size={36}
+        />
+      </BaseButton>
+
       {createdMeme ? (
         <>
           <FastImage
