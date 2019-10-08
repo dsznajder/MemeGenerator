@@ -5,7 +5,7 @@ export const transparent = 'transparent';
 export const error = '#D23A4B';
 export const success = '#37B487';
 export const warning = '#E7BE33';
-export const fontColor = '#FFFFFF';
+export const fontPlaceholderColor = '#DBDBDB';
 
 export const primary = '#2B262D';
 export const secondary = '#E06764';

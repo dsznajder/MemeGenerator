@@ -6,16 +6,16 @@ import {
   FlatList,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
+  View,
 } from 'react-native';
 
 import Api from '~/services/Api';
-import objectKeysToCamelCase from '~/helpers/objectKeysToCamelCase';
-
+import Input from '~/components/Input';
 import Storage from '~/services/Storage';
+import objectKeysToCamelCase from '~/helpers/objectKeysToCamelCase';
 import { MemeType } from '~/types/scenes';
-import { primary } from '~/styles/colors';
+import { white } from '~/styles/colors';
 
 const { width } = Dimensions.get('window');
 
@@ -71,8 +71,8 @@ const App = ({ navigation }) => {
   );
 
   return (
-    <>
-      <TextInput
+    <View style={styles.container}>
+      <Input
         autoCorrect={false}
         autoCapitalize="none"
         autoCompleteType="off"
@@ -86,16 +86,21 @@ const App = ({ navigation }) => {
         data={searchText ? fuseMemes.current.search(searchText) : memes}
         numColumns={2}
         renderItem={renderItem}
+        showsVerticalScrollIndicator={false}
       />
-    </>
+    </View>
   );
 };
 
 export default App;
 
-const IMAGE_SIZE = width / 2 - 20;
+const IMAGE_SIZE = width / 2 - 30;
 
 const styles = StyleSheet.create({
+  container: {
+    paddingTop: 20,
+    marginHorizontal: 15,
+  },
   image: {
     alignSelf: 'center',
     height: IMAGE_SIZE,
@@ -107,10 +112,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   list: {
-    paddingTop: 40,
+    paddingTop: 20,
   },
   name: {
-    color: primary,
+    padding: 5,
+    color: white,
     fontSize: 16,
   },
 });

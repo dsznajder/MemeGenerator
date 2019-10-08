@@ -16,7 +16,7 @@ import {
   ImageBackground,
   StyleSheet,
   Text,
-  TextInput,
+  View,
 } from 'react-native';
 import {
   clamp,
@@ -28,7 +28,9 @@ import { range } from 'lodash';
 
 import Icon from '~/components/Icon';
 import Storage from '~/services/Storage';
-import { black, primary, white } from '~/styles/colors';
+import { black, primary, secondary, white } from '~/styles/colors';
+
+import Input from '~/components/Input';
 
 import {
   MemeCreatorActions,
@@ -75,8 +77,8 @@ const reducer = (state: MemeCreatorState, action: MemeCreatorActions) => {
 };
 
 const MemeCreator = ({ route }: Props) => {
-  const viewShowRef: RefObject<ViewShot> = useRef();
   const { meme } = route.params;
+  const viewShowRef: RefObject<ViewShot> = useRef();
   const boxes = useRef(range(meme.boxCount));
   const panRefs = boxes.current.map(useRef);
   const pinchRefs = boxes.current.map(useRef);
@@ -184,7 +186,7 @@ const MemeCreator = ({ route }: Props) => {
           <Button title="Udostępnij" color={primary} onPress={shareMeme} />
         </>
       ) : (
-        <>
+        <View>
           <ViewShot options={{ format: 'jpg', quality: 0.9 }} ref={viewShowRef}>
             <ImageBackground
               resizeMode="contain"
@@ -238,8 +240,11 @@ const MemeCreator = ({ route }: Props) => {
           </ViewShot>
 
           {boxes.current.map((line, index) => (
-            <TextInput
+            <Input
               key={line}
+              autoCorrect={false}
+              autoCapitalize="none"
+              autoCompleteType="off"
               value={lines[index]}
               placeholder={`${line}`}
               onChangeText={text =>
@@ -253,8 +258,9 @@ const MemeCreator = ({ route }: Props) => {
               }
             />
           ))}
-          <Button color={primary} onPress={saveMeme} title="Zapisz mem" />
-        </>
+
+          <Button color={secondary} onPress={saveMeme} title="Zapisz mem" />
+        </View>
       )}
     </ScrollView>
   );
