@@ -1,10 +1,20 @@
-import { HeaderStyleInterpolators } from '@react-navigation/stack';
+import {
+  CardStyleInterpolators,
+  HeaderStyleInterpolators,
+} from '@react-navigation/stack';
+import { Platform } from 'react-native';
 
 import { background, black, primary, secondary, white } from '~/styles/colors';
 
 export const screenOptions = {
-  headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
-  headerTintColor: white,
+  headerStyleInterpolator: Platform.select({
+    android: HeaderStyleInterpolators.forFade,
+    ios: HeaderStyleInterpolators.forUIKit,
+  }),
+  cardStyleInterpolator: Platform.select({
+    android: CardStyleInterpolators.forRevealFromBottomAndroid,
+    ios: CardStyleInterpolators.forHorizontalIOS,
+  }),
   headerStyle: {
     backgroundColor: primary,
     elevation: 10,

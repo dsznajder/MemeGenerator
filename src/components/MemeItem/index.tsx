@@ -15,6 +15,7 @@ const MemeItem = ({ item, onPress }: Props) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.item}>
       <Text style={styles.name}>{item.name}</Text>
+
       <FastImage
         resizeMode={FastImage.resizeMode.stretch}
         source={{ cache: FastImage.cacheControl.immutable, uri: item.url }}
