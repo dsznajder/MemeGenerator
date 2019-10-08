@@ -15,6 +15,9 @@ export const screenOptions = {
     android: CardStyleInterpolators.forRevealFromBottomAndroid,
     ios: CardStyleInterpolators.forHorizontalIOS,
   }),
+  headerTitleStyle: {
+    color: white,
+  },
   headerStyle: {
     backgroundColor: primary,
     elevation: 10,
