@@ -11,7 +11,14 @@ module.exports = {
     },
     'import/resolver': {
       node: {
-        extensions: ['.tsx', '.js', '.android.tsx', '.ios.tsx', '.native.js'],
+        extensions: [
+          '.tsx',
+          '.ts',
+          '.js',
+          '.android.tsx',
+          '.ios.tsx',
+          '.native.js',
+        ],
       },
     },
   },
