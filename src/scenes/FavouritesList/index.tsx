@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 
 import MemeItem from '~/components/MemeItem';
 import Storage from '~/services/Storage';
@@ -26,6 +26,7 @@ const FavouritesList = ({ navigation }) => {
     <FlatList
       data={favourites}
       numColumns={2}
+      contentContainerStyle={styles.list}
       renderItem={({ item }) => (
         <MemeItem
           onPress={() => navigation.navigate('MemeCreator', { meme: item })}
@@ -37,3 +38,10 @@ const FavouritesList = ({ navigation }) => {
 };
 
 export default FavouritesList;
+
+const styles = StyleSheet.create({
+  list: {
+    paddingTop: 20,
+    paddingBottom: 80,
+  },
+});

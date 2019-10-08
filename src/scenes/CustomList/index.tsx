@@ -1,10 +1,12 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Button, View } from 'react-native';
+
+import { secondary } from '~/styles/colors';
 
 const CustomList = () => {
   return (
     <View>
-      <Text>CustomList</Text>
+      <Button title="upload" color={secondary} onPress={() => {}} />
     </View>
   );
 };

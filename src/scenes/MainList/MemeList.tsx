@@ -83,5 +83,6 @@ const styles = StyleSheet.create({
   },
   list: {
     paddingTop: 20,
+    paddingBottom: 80,
   },
 });
