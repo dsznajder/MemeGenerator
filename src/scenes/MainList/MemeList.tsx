@@ -49,13 +49,15 @@ const App = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Input
-        autoCorrect={false}
-        autoCapitalize="none"
-        autoCompleteType="off"
-        placeholder="Szukaj"
-        onChangeText={setSearchText}
-      />
+      <View style={styles.inputContainer}>
+        <Input
+          autoCorrect={false}
+          autoCapitalize="none"
+          autoCompleteType="off"
+          placeholder="Szukaj"
+          onChangeText={setSearchText}
+        />
+      </View>
 
       <FlatList
         keyExtractor={({ id, item }) => (item ? item.id : id)}
@@ -77,11 +79,14 @@ const App = ({ navigation }) => {
 export default App;
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 20,
+  inputContainer: {
     marginHorizontal: 15,
   },
+  container: {
+    paddingTop: 20,
+  },
   list: {
+    paddingHorizontal: 15,
     paddingTop: 20,
     paddingBottom: 80,
   },
