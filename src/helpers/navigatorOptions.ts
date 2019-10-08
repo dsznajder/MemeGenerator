@@ -22,7 +22,12 @@ export const screenOptions = {
     shadowOpacity: 0.5,
     shadowRadius: 10,
   },
-  cardStyle: { backgroundColor: background },
+  cardStyle: {
+    backgroundColor: background,
+  },
+  gestureEnabled: true,
+  cardOverlayEnabled: true,
+  headerTintColor: white,
 };
 
 export const tabBarOptions = {
