@@ -3,11 +3,11 @@ import AsyncStorage from '@react-native-community/async-storage';
 const __APP_STORAGE_KEY = `@MemeGeneratorStorage:`;
 
 type StorageKeys = {
-  favouriteIds: 'favouriteIds';
+  favourites: 'favourites';
 };
 
 const keys: StorageKeys = {
-  favouriteIds: 'favouriteIds',
+  favourites: 'favourites',
 };
 
 export default {
@@ -22,13 +22,21 @@ export default {
   ): Promise<void> => {
     const storageKey = `${__APP_STORAGE_KEY}${key}`;
     const items = JSON.parse(await AsyncStorage.getItem(storageKey)) || [];
+
     return AsyncStorage.setItem(
       storageKey,
-      JSON.stringify(items.filter(item => value !== item)),
+      JSON.stringify(
+        items.filter(item => {
+          return typeof item === 'string' ? item !== value : item.id !== value;
+        }),
+      ),
     );
   },
 
-  addToArray: async (key: keyof StorageKeys, value: string): Promise<void> => {
+  addToArray: async (
+    key: keyof StorageKeys,
+    value: { id: string },
+  ): Promise<void> => {
     const storageKey = `${__APP_STORAGE_KEY}${key}`;
     const items = JSON.parse(await AsyncStorage.getItem(storageKey)) || [];
     return AsyncStorage.setItem(storageKey, JSON.stringify([...items, value]));

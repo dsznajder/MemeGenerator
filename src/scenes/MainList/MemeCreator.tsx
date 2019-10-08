@@ -138,9 +138,9 @@ const MemeCreator = ({ route }: Props) => {
 
   const toggleFavourite = () => {
     if (favourite) {
-      Storage.removeFromArray(Storage.keys.favouriteIds, meme.id);
+      Storage.removeFromArray(Storage.keys.favourites, meme.id);
     } else {
-      Storage.addToArray(Storage.keys.favouriteIds, meme.id);
+      Storage.addToArray(Storage.keys.favourites, meme);
     }
     dispatch({ type: ACTION_TYPES.toggleFavourite });
   };
