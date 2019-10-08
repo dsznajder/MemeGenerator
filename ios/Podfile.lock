@@ -191,6 +191,8 @@ PODS:
     - React-cxxreact (= 0.61.2)
     - React-jsi (= 0.61.2)
   - React-jsinspector (0.61.2)
+  - react-native-image-picker (1.1.0):
+    - React
   - react-native-view-shot (3.0.2):
     - React
   - React-RCTActionSheet (0.61.2):
@@ -273,6 +275,7 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-view-shot (from `../node_modules/react-native-view-shot`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -332,6 +335,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-image-picker:
+    :path: "../node_modules/react-native-image-picker"
   react-native-view-shot:
     :path: "../node_modules/react-native-view-shot"
   React-RCTActionSheet:
@@ -392,6 +397,7 @@ SPEC CHECKSUMS:
   React-jsi: 32285a21b1b24c36060493ed3057a34677d58d09
   React-jsiexecutor: 8909917ff7d8f21a57e443a866fd8d4560e50c65
   React-jsinspector: 111d7d342b07a904c400592e02a2b958f1098b60
+  react-native-image-picker: 7a85cf7b0a53845f03ae52fb4592a2748ded069b
   react-native-view-shot: 5f80b8f4f9003c3da8c0c0013488e5b2db17b1e2
   React-RCTActionSheet: 89b037c0fb7d2671607cb645760164e7e0c013f6
   React-RCTAnimation: e3cefa93c38c004c318f7ec04b883eb14b8b8235
@@ -418,4 +424,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 231c25b41ccf6c6c488e420261f63d6c2d8f3701
 
-COCOAPODS: 1.8.1
+COCOAPODS: 1.8.3
