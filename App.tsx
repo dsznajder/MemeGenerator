@@ -4,15 +4,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useScreens } from 'react-native-screens';
 
-import { BottomTabParamList, StackParamList } from './src/types/scenes';
-
 import Custom from './src/scenes/CustomList';
 import Favourites from './src/scenes/FavouritesList';
 import MemeCreator from './src/scenes/MainList/MemeCreator';
 import MemeList from './src/scenes/MainList/MemeList';
+import { BottomTabParamList, StackParamList } from './src/types/scenes';
 
 import Icon from './src/components/Icon';
-import { black, primary } from './src/styles/colors';
+import { screenOptions, tabBarOptions } from './src/helpers/navigatorOptions';
 
 /* eslint-disable react-hooks/rules-of-hooks */
 useScreens();
@@ -30,13 +29,7 @@ const tabBarIcon = (iconName: string) => ({
 const App = () => {
   return (
     <NavigationNativeContainer>
-      <Tab.Navigator
-        tabBarOptions={{
-          activeTintColor: primary,
-          inactiveTintColor: black,
-        }}
-        initialRouteName="List"
-      >
+      <Tab.Navigator tabBarOptions={tabBarOptions} initialRouteName="List">
         <Tab.Screen
           options={{
             tabBarIcon: tabBarIcon('home'),
@@ -44,7 +37,10 @@ const App = () => {
           name="List"
         >
           {() => (
-            <Stack.Navigator initialRouteName="MemeList">
+            <Stack.Navigator
+              screenOptions={screenOptions}
+              initialRouteName="MemeList"
+            >
               <Stack.Screen name="MemeList" component={MemeList} />
               <Stack.Screen name="MemeCreator" component={MemeCreator} />
             </Stack.Navigator>
@@ -58,7 +54,7 @@ const App = () => {
           name="Favourites"
         >
           {() => (
-            <Stack.Navigator>
+            <Stack.Navigator screenOptions={screenOptions}>
               <Stack.Screen component={Favourites} name="Favourites" />
             </Stack.Navigator>
           )}
@@ -71,7 +67,7 @@ const App = () => {
           name="Custom"
         >
           {() => (
-            <Stack.Navigator>
+            <Stack.Navigator screenOptions={screenOptions}>
               <Stack.Screen component={Custom} name="Custom" />
             </Stack.Navigator>
           )}
