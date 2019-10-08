@@ -6030,6 +6030,11 @@ react-native-redash@8.2.0:
     parse-svg-path "^0.1.2"
     use-memo-one "^1.1.1"
 
+react-native-safe-area-context@0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-0.4.1.tgz#2a6d5cf046d94f1f9dbe4249cb44517135764aed"
+  integrity sha512-m7C+Pv9l6fAFwevqt0c2SWoE5ttqYtncqmzoKrQ5Laq1K+ZkrLdtXjfP2vvPFq2HbYemHTevcZtjVqz7HJYTcQ==
+
 react-native-screens@2.0.0-alpha.3:
   version "2.0.0-alpha.3"
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.0.0-alpha.3.tgz#af86f265b2fb4293b626cf4396db7743de5a54af"
