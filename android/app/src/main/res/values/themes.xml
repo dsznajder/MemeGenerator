@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="DefaultExplainingPermissionsTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/actionSecondary</item>
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:background">@color/actionBackground</item>
+
+        <item name="android:textColorAlertDialogListItem">#FFFFFF</item>
+        <item name="android:textColor">@null</item>
+        <item name="android:textSize">@null</item>
+    </style>
+</resources>

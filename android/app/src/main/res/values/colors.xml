@@ -1,3 +1,5 @@
 <resources>
+  <color name="actionBackground">#625866</color>
+  <color name="actionSecondary">#e56967</color>
   <color name="white">#FFFFFF</color>
 </resources>
