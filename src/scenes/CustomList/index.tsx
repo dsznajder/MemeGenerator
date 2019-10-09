@@ -35,9 +35,9 @@ const CustomList = () => {
   return (
     <View>
       <Button
-        title={I18n.t('common.upload')}
         color={secondary}
         onPress={openImagePicker}
+        title={I18n.t('common.upload')}
       />
     </View>
   );

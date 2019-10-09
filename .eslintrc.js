@@ -39,6 +39,14 @@ module.exports = {
         ],
       },
     ],
+    'react/jsx-sort-props': [
+      'error',
+      {
+        callbacksLast: false,
+        shorthandFirst: false,
+        ignoreCase: true,
+      },
+    ],
     'sort-imports-es6-autofix/sort-imports-es6': [
       'error',
       {

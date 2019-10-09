@@ -26,11 +26,11 @@ import {
 } from 'react-native-redash';
 import { range } from 'lodash';
 
+import Button from '~/components/Button';
 import Icon from '~/components/Icon';
+import Input from '~/components/Input';
 import Storage from '~/services/Storage';
 import { black, primary, secondary, white } from '~/styles/colors';
-
-import Input from '~/components/Input';
 
 import {
   MemeCreatorActions,
@@ -170,8 +170,8 @@ const MemeCreator = ({ route }: Props) => {
     <ScrollView contentContainerStyle={styles.container}>
       <BaseButton onPress={toggleFavourite}>
         <Icon
-          name={favourite ? 'heart' : 'heart-outlined'}
           color="red"
+          name={favourite ? 'heart' : 'heart-outlined'}
           size={36}
         />
       </BaseButton>
@@ -179,11 +179,11 @@ const MemeCreator = ({ route }: Props) => {
       {createdMeme ? (
         <>
           <FastImage
-            style={imageStyle}
-            source={{ uri: createdMeme }}
             resizeMode={FastImage.resizeMode.contain}
+            source={{ uri: createdMeme }}
+            style={imageStyle}
           />
-          <Button title="Udostępnij" color={primary} onPress={shareMeme} />
+          <Button color={primary} label="Udostępnij" onPress={shareMeme} />
         </>
       ) : (
         <View>
@@ -206,8 +206,8 @@ const MemeCreator = ({ route }: Props) => {
                 return (
                   <PanGestureHandler
                     {...panGestureEvent}
-                    key={index}
                     avgTouches
+                    key={index}
                     simultaneousHandlers={pinchRef}
                   >
                     <Animated.View>
@@ -241,12 +241,10 @@ const MemeCreator = ({ route }: Props) => {
 
           {boxes.current.map((line, index) => (
             <Input
-              key={line}
-              autoCorrect={false}
               autoCapitalize="none"
               autoCompleteType="off"
-              value={lines[index]}
-              placeholder={`${line}`}
+              autoCorrect={false}
+              key={line}
               onChangeText={text =>
                 dispatch({
                   type: ACTION_TYPES.changeLine,
@@ -256,10 +254,12 @@ const MemeCreator = ({ route }: Props) => {
                   },
                 })
               }
+              placeholder={`${line}`}
+              value={lines[index]}
             />
           ))}
 
-          <Button color={secondary} onPress={saveMeme} title="Zapisz mem" />
+          <Button color={secondary} label="Zapisz mem" onPress={saveMeme} />
         </View>
       )}
     </ScrollView>

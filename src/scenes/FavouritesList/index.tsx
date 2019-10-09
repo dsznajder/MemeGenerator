@@ -24,13 +24,13 @@ const FavouritesList = ({ navigation }) => {
 
   return (
     <FlatList
+      contentContainerStyle={styles.list}
       data={favourites}
       numColumns={2}
-      contentContainerStyle={styles.list}
       renderItem={({ item }) => (
         <MemeItem
-          onPress={() => navigation.navigate('MemeCreator', { meme: item })}
           item={item}
+          onPress={() => navigation.navigate('MemeCreator', { meme: item })}
         />
       )}
     />

@@ -51,18 +51,18 @@ const App = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.inputContainer}>
         <Input
-          autoCorrect={false}
           autoCapitalize="none"
           autoCompleteType="off"
-          placeholder="Szukaj"
+          autoCorrect={false}
           onChangeText={setSearchText}
+          placeholder="Szukaj"
         />
       </View>
 
       <FlatList
-        keyExtractor={({ id, item }) => (item ? item.id : id)}
         contentContainerStyle={styles.list}
         data={searchText ? fuseMemes.current.search(searchText) : memes}
+        keyExtractor={({ id, item }) => (item ? item.id : id)}
         numColumns={2}
         renderItem={({ item }) => (
           <MemeItem
