@@ -11,7 +11,6 @@ import {
   ScrollView,
 } from 'react-native-gesture-handler';
 import {
-  Button,
   Dimensions,
   ImageBackground,
   StyleSheet,
