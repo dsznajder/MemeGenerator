@@ -164,6 +164,7 @@ const styles = StyleSheet.create({
   },
   rippleContainer: {
     ...StyleSheet.absoluteFillObject,
+    borderRadius: 24,
     backgroundColor: 'transparent',
     overflow: 'hidden',
   },
