@@ -3,7 +3,7 @@ import { FlatList, StyleSheet } from 'react-native';
 
 import MemeItem from '~/components/MemeItem';
 import Storage from '~/services/Storage';
-import { MemeType } from '~/types/scenes';
+import { MemeType } from '~/typings/scenes';
 
 const FavouritesList = ({ navigation }) => {
   const [favourites, setFavourites]: [

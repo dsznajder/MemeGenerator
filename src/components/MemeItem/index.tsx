@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 import { DEVICE_WIDTH } from '~/styles/values';
-import { MemeType } from '~/types/scenes';
+import { MemeType } from '~/typings/scenes';
 import { white } from '~/styles/colors';
 
 type Props = {

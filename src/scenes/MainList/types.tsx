@@ -1,6 +1,6 @@
 import { RouteProp } from '@react-navigation/core';
 
-import { StackParamList } from '~/types/scenes';
+import { StackParamList } from '~/typings/scenes';
 
 export type MemeCreatorRouteProp = RouteProp<StackParamList, 'MemeCreator'>;
 

@@ -20,7 +20,7 @@
       "~/scenes/*": ["src/scenes/*"],
       "~/services/*": ["src/services/*"],
       "~/styles/*": ["src/styles/*"],
-      "~/types/*": ["src/types/*"]
+      "~/typings/*": ["src/typings/*"]
     }
   },
   "include": ["./src/**/*"],

@@ -7,7 +7,7 @@ import Input from '~/components/Input';
 import MemeItem from '~/components/MemeItem';
 import Storage from '~/services/Storage';
 import objectKeysToCamelCase from '~/helpers/objectKeysToCamelCase';
-import { MemeType } from '~/types/scenes';
+import { MemeType } from '~/typings/scenes';
 
 const fuseOptions = {
   keys: ['name'],
