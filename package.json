@@ -94,8 +94,8 @@
     }
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
-      "eslint --ext ',.ts,.tsx'",
+    "*.{js,ts,tsx}": [
+      "eslint --ext ',.js,.ts,.tsx'",
       "git add"
     ]
   }

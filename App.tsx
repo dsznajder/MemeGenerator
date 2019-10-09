@@ -8,7 +8,7 @@ import Custom from './src/scenes/CustomList';
 import Favourites from './src/scenes/FavouritesList';
 import MemeCreator from './src/scenes/MainList/MemeCreator';
 import MemeList from './src/scenes/MainList/MemeList';
-import { BottomTabParamList, StackParamList } from './src/types/scenes';
+import { BottomTabParamList, StackParamList } from './src/typings/scenes';
 
 import Icon from './src/components/Icon';
 import { screenOptions, tabBarOptions } from './src/helpers/navigatorOptions';
