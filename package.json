@@ -29,6 +29,7 @@
     "@react-navigation/stack": "5.0.0-alpha.24",
     "color": "3.1.2",
     "fuse.js": "3.4.5",
+    "i18n-js": "3.3.0",
     "lodash": "4.17.15",
     "react": "16.9.0",
     "react-native": "0.61.2",
@@ -68,7 +69,7 @@
     "metro-react-native-babel-preset": "0.56.0",
     "prettier": "1.18.2",
     "react-test-renderer": "16.9.0",
-    "typescript": "3.6.3"
+    "typescript": "3.7.0-beta"
   },
   "jest": {
     "preset": "react-native",

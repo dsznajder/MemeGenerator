@@ -2,6 +2,7 @@ import ImagePicker from 'react-native-image-picker';
 import React from 'react';
 import { Button, View } from 'react-native';
 
+import I18n from '~/services/I18n';
 import { secondary } from '~/styles/colors';
 
 const imagePickerOptions = {
@@ -33,7 +34,11 @@ const CustomList = () => {
 
   return (
     <View>
-      <Button title="upload" color={secondary} onPress={openImagePicker} />
+      <Button
+        title={I18n.t('common.upload')}
+        color={secondary}
+        onPress={openImagePicker}
+      />
     </View>
   );
 };

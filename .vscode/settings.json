@@ -11,5 +11,9 @@
   "prettier.semi": true,
   "prettier.singleQuote": true,
   "prettier.trailingComma": "all",
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "generate-translation.path": "/src/locales/",
+  "generate-translation.sort": true,
+  "generate-translation.replaceForExtensions": ["ts", "js", "tsx"],
+  "generate-translation.templateSnippetToReplace": "I18n.t('i18n')"
 }
