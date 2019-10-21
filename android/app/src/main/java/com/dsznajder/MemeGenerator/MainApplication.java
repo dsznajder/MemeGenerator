@@ -10,10 +10,10 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+import cl.json.ShareApplication;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import cl.json.ShareApplication;
 
 public class MainApplication extends Application implements ShareApplication, ReactApplication {
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {

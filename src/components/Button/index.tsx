@@ -149,6 +149,7 @@ const styles = StyleSheet.create({
   container: {
     minHeight: 48,
     borderRadius: 24,
+    paddingHorizontal: 10,
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -205,7 +205,6 @@ const MemeCreator = ({ route }: Props) => {
               return (
                 <PanGestureHandler
                   {...panGestureEvent}
-                  avgTouches
                   key={index}
                   simultaneousHandlers={pinchRef}
                 >
@@ -215,7 +214,7 @@ const MemeCreator = ({ route }: Props) => {
                       styles.textContainer,
                       {
                         top: index * 30,
-                        transform: [{ translateX }, { translateY }, { scale }],
+                        transform: [{ translateX }, { translateY }],
                       },
                     ]}
                   >
@@ -223,7 +222,10 @@ const MemeCreator = ({ route }: Props) => {
                       {...pinchGestureEvent}
                       simultaneousHandlers={panRef}
                     >
-                      <Animated.Text style={styles.text}>
+                      <Animated.Text
+                        // @ts-ignore
+                        style={[styles.text, { transform: [{ scale }] }]}
+                      >
                         {lines[index]}
                       </Animated.Text>
                     </PinchGestureHandler>
