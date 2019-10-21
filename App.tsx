@@ -11,6 +11,8 @@ import MemeList from './src/scenes/MainList/MemeList';
 import { BottomTabParamList, StackParamList } from './src/typings/scenes';
 
 import Icon from './src/components/Icon';
+import trackScreen from './src/helpers/trackScreen';
+import { navigationRef } from './src/services/Navigation';
 import { screenOptions, tabBarOptions } from './src/helpers/navigatorOptions';
 
 /* eslint-disable react-hooks/rules-of-hooks */
@@ -26,7 +28,7 @@ const tabBarIcon = (iconName: string) => ({ color }: { color: string }) => (
 
 const App = () => {
   return (
-    <NavigationNativeContainer>
+    <NavigationNativeContainer onStateChange={trackScreen} ref={navigationRef}>
       <Tab.Navigator initialRouteName="List" tabBarOptions={tabBarOptions}>
         <Tab.Screen
           name="List"

@@ -24,6 +24,7 @@ import Icon from '~/components/Icon';
 import Input from '~/components/Input';
 import Storage from '~/services/Storage';
 import { black, primary, secondary, white } from '~/styles/colors';
+import { logEvent } from '~/services/Firebase';
 
 import {
   MemeCreatorActions,
@@ -133,6 +134,7 @@ const MemeCreator = ({ route }: Props) => {
     if (favourite) {
       Storage.removeFromArray(Storage.keys.favourites, meme.id);
     } else {
+      logEvent('added_to_favourites', { name: meme.name });
       Storage.addToArray(Storage.keys.favourites, meme);
     }
     dispatch({ type: ACTION_TYPES.toggleFavourite });
@@ -152,10 +154,10 @@ const MemeCreator = ({ route }: Props) => {
   const shareMeme = () => {
     Share.open({ url: createdMeme })
       .then(() => {
-        console.log('shared');
+        logEvent('meme_shared', { name: meme.name });
       })
       .catch(() => {
-        console.log('dismissed');
+        logEvent('share_menu_dismissed', { name: meme.name });
       });
   };
 
