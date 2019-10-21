@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useScreens } from 'react-native-screens';
 
-import Custom from './src/scenes/CustomList';
+// import Custom from './src/scenes/CustomList';
 import Favourites from './src/scenes/FavouritesList';
 import MemeCreator from './src/scenes/MainList/MemeCreator';
 import MemeList from './src/scenes/MainList/MemeList';
@@ -20,11 +20,9 @@ useScreens();
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 const Stack = createStackNavigator<StackParamList>();
 
-const tabBarIcon = (iconName: string) => ({
-  tintColor,
-}: {
-  tintColor: string;
-}) => <Icon color={tintColor} name={iconName} />;
+const tabBarIcon = (iconName: string) => ({ color }: { color: string }) => (
+  <Icon color={color} name={iconName} />
+);
 
 const App = () => {
   return (
@@ -60,7 +58,7 @@ const App = () => {
           )}
         </Tab.Screen>
 
-        <Tab.Screen
+        {/* <Tab.Screen
           name="Custom"
           options={{
             tabBarIcon: tabBarIcon('archive'),
@@ -71,7 +69,7 @@ const App = () => {
               <Stack.Screen component={Custom} name="Custom" />
             </Stack.Navigator>
           )}
-        </Tab.Screen>
+        </Tab.Screen> */}
       </Tab.Navigator>
     </NavigationNativeContainer>
   );

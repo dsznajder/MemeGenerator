@@ -44,7 +44,7 @@ const App = ({ navigation }) => {
 
     fuseMemes.current = new Fuse(parsedMemes, fuseOptions);
 
-    setMemes(parsedMemes);
+    setMemes(parsedMemes.sort((a, b) => a.name.localeCompare(b.name)));
   };
 
   return (

@@ -16,8 +16,6 @@ const imagePickerOptions = {
 const CustomList = () => {
   const openImagePicker = () => {
     ImagePicker.showImagePicker(imagePickerOptions, response => {
-      console.log('Response = ', response);
-
       if (response.didCancel) {
         console.log('User cancelled image picker');
       } else if (response.error) {
@@ -25,9 +23,8 @@ const CustomList = () => {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        // const source = { uri: response.uri };
-        // You can also display the image using data:
-        // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+        const source = { uri: 'data:image/jpeg;base64,' + response.data };
+        console.log(source);
       }
     });
   };

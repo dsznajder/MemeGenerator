@@ -10,13 +10,7 @@ import {
   PinchGestureHandler,
   ScrollView,
 } from 'react-native-gesture-handler';
-import {
-  Dimensions,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import {
   clamp,
   onGestureEvent,
@@ -187,75 +181,75 @@ const MemeCreator = ({ route }: Props) => {
       ) : (
         <View>
           <ViewShot options={{ format: 'jpg', quality: 0.9 }} ref={viewShowRef}>
-            <ImageBackground
-              resizeMode="contain"
-              source={{ uri: meme.url }}
+            <FastImage
+              resizeMode={FastImage.resizeMode.stretch}
+              source={{
+                cache: FastImage.cacheControl.immutable,
+                uri: meme.url,
+              }}
               style={imageStyle}
-            >
-              {boxes.current.map(index => {
-                const {
-                  panGestureEvent,
-                  pinchGestureEvent,
-                  translateY,
-                  translateX,
-                  scale,
-                  panRef,
-                  pinchRef,
-                } = gestureHandlers.current[index];
-                return (
-                  <PanGestureHandler
-                    {...panGestureEvent}
-                    avgTouches
-                    key={index}
-                    simultaneousHandlers={pinchRef}
+            />
+
+            {boxes.current.map(index => {
+              const {
+                panGestureEvent,
+                pinchGestureEvent,
+                translateY,
+                translateX,
+                scale,
+                panRef,
+                pinchRef,
+              } = gestureHandlers.current[index];
+              return (
+                <PanGestureHandler
+                  {...panGestureEvent}
+                  avgTouches
+                  key={index}
+                  simultaneousHandlers={pinchRef}
+                >
+                  <Animated.View
+                    // @ts-ignore
+                    style={[
+                      styles.textContainer,
+                      {
+                        top: index * 30,
+                        transform: [{ translateX }, { translateY }, { scale }],
+                      },
+                    ]}
                   >
-                    <Animated.View>
-                      <PinchGestureHandler
-                        {...pinchGestureEvent}
-                        simultaneousHandlers={panRef}
-                      >
-                        <Animated.View
-                          // @ts-ignore
-                          style={[
-                            styles.textContainer,
-                            {
-                              top: index * 30,
-                              transform: [
-                                { translateX },
-                                { translateY },
-                                { scale },
-                              ],
-                            },
-                          ]}
-                        >
-                          <Text style={styles.text}>{lines[index]}</Text>
-                        </Animated.View>
-                      </PinchGestureHandler>
-                    </Animated.View>
-                  </PanGestureHandler>
-                );
-              })}
-            </ImageBackground>
+                    <PinchGestureHandler
+                      {...pinchGestureEvent}
+                      simultaneousHandlers={panRef}
+                    >
+                      <Animated.Text style={styles.text}>
+                        {lines[index]}
+                      </Animated.Text>
+                    </PinchGestureHandler>
+                  </Animated.View>
+                </PanGestureHandler>
+              );
+            })}
           </ViewShot>
 
           {boxes.current.map((line, index) => (
-            <Input
-              autoCapitalize="none"
-              autoCompleteType="off"
-              autoCorrect={false}
-              key={line}
-              onChangeText={text =>
-                dispatch({
-                  type: ACTION_TYPES.changeLine,
-                  payload: {
-                    line: text,
-                    index,
-                  },
-                })
-              }
-              placeholder={`${line}`}
-              value={lines[index]}
-            />
+            <View key={line} style={styles.inputContainer}>
+              <Input
+                autoCapitalize="none"
+                autoCompleteType="off"
+                autoCorrect={false}
+                onChangeText={text =>
+                  dispatch({
+                    type: ACTION_TYPES.changeLine,
+                    payload: {
+                      line: text,
+                      index,
+                    },
+                  })
+                }
+                placeholder={`${line}`}
+                value={lines[index]}
+              />
+            </View>
           ))}
 
           <Button color={secondary} label="Zapisz mem" onPress={saveMeme} />
@@ -278,6 +272,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textShadowColor: black,
     textShadowRadius: 4,
+  },
+  inputContainer: {
+    padding: 10,
   },
   textContainer: {
     alignSelf: 'center',
