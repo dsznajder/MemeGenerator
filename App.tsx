@@ -1,8 +1,9 @@
 import React from 'react';
 import { NavigationNativeContainer } from '@react-navigation/native';
+import { StatusBar } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useScreens } from 'react-native-screens';
+import { enableScreens } from 'react-native-screens';
 
 // import Custom from './src/scenes/CustomList';
 import Favourites from './src/scenes/FavouritesList';
@@ -15,9 +16,7 @@ import trackScreen from './src/helpers/trackScreen';
 import { navigationRef } from './src/services/Navigation';
 import { screenOptions, tabBarOptions } from './src/helpers/navigatorOptions';
 
-/* eslint-disable react-hooks/rules-of-hooks */
-useScreens();
-/* eslint-enable react-hooks/rules-of-hooks */
+enableScreens();
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 const Stack = createStackNavigator<StackParamList>();
@@ -28,39 +27,44 @@ const tabBarIcon = (iconName: string) => ({ color }: { color: string }) => (
 
 const App = () => {
   return (
-    <NavigationNativeContainer onStateChange={trackScreen} ref={navigationRef}>
-      <Tab.Navigator initialRouteName="List" tabBarOptions={tabBarOptions}>
-        <Tab.Screen
-          name="List"
-          options={{
-            tabBarIcon: tabBarIcon('home'),
-          }}
-        >
-          {() => (
-            <Stack.Navigator
-              initialRouteName="MemeList"
-              screenOptions={screenOptions}
-            >
-              <Stack.Screen component={MemeList} name="MemeList" />
-              <Stack.Screen component={MemeCreator} name="MemeCreator" />
-            </Stack.Navigator>
-          )}
-        </Tab.Screen>
+    <>
+      <StatusBar animated barStyle="light-content" />
+      <NavigationNativeContainer
+        onStateChange={trackScreen}
+        ref={navigationRef}
+      >
+        <Tab.Navigator initialRouteName="List" tabBarOptions={tabBarOptions}>
+          <Tab.Screen
+            name="List"
+            options={{
+              tabBarIcon: tabBarIcon('home'),
+            }}
+          >
+            {() => (
+              <Stack.Navigator
+                initialRouteName="MemeList"
+                screenOptions={screenOptions}
+              >
+                <Stack.Screen component={MemeList} name="MemeList" />
+                <Stack.Screen component={MemeCreator} name="MemeCreator" />
+              </Stack.Navigator>
+            )}
+          </Tab.Screen>
 
-        <Tab.Screen
-          name="Favourites"
-          options={{
-            tabBarIcon: tabBarIcon('bookmark'),
-          }}
-        >
-          {() => (
-            <Stack.Navigator screenOptions={screenOptions}>
-              <Stack.Screen component={Favourites} name="Favourites" />
-            </Stack.Navigator>
-          )}
-        </Tab.Screen>
+          <Tab.Screen
+            name="Favourites"
+            options={{
+              tabBarIcon: tabBarIcon('bookmark'),
+            }}
+          >
+            {() => (
+              <Stack.Navigator screenOptions={screenOptions}>
+                <Stack.Screen component={Favourites} name="Favourites" />
+              </Stack.Navigator>
+            )}
+          </Tab.Screen>
 
-        {/* <Tab.Screen
+          {/* <Tab.Screen
           name="Custom"
           options={{
             tabBarIcon: tabBarIcon('archive'),
@@ -72,8 +76,9 @@ const App = () => {
             </Stack.Navigator>
           )}
         </Tab.Screen> */}
-      </Tab.Navigator>
-    </NavigationNativeContainer>
+        </Tab.Navigator>
+      </NavigationNativeContainer>
+    </>
   );
 };
 

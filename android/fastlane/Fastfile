@@ -1,0 +1,20 @@
+default_platform(:android)
+
+platform :android do
+  desc "Android Firebase Distribution"
+  lane :firebase_distribution do |options|
+    build_android_app(
+      build_type: "Release",
+      task: "assemble",
+    )
+
+    firebase_cli_path = options[:firebase_cli_path] || `which firebase`
+
+    firebase_app_distribution(
+      app: options[:firebase_app_id],
+      firebase_cli_token: options[:firebase_cli_token],
+      firebase_cli_path: firebase_cli_path,
+      testers: "testing@niepodam.pl",
+    )
+  end
+end

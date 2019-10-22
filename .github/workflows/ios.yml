@@ -1,0 +1,33 @@
+name: Build iOS
+
+on:
+  push:
+    branches:
+      - beta
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Setup Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.6.x'
+      # - name: Install
+      #   run: yarn install
+      # - name: Setup bundler, fastlane, firebase
+      #   run: |
+      #     yarn global add firebase
+      #     gem install bundler
+      #     gem install fastlane
+      #     cd ios && bundle install
+      # - name: Build ios
+      #   run: |
+      #     cd ios
+      #     fastlane ios firebase_distribution firebase_app_id:${{ secrets.FIREBASE_IOS_APP_ID }} firebase_cli_token:${{ secrets.FIREBASE_CLI_TOKEN }}
