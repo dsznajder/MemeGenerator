@@ -60,16 +60,17 @@ const Button = ({
   }, []);
 
   useCode(
-    block([
-      set(
-        progress,
-        timing({
-          from: 0,
-          to: 1,
-          duration: rippleDuration,
-        }),
-      ),
-    ]),
+    () =>
+      block([
+        set(
+          progress,
+          timing({
+            from: 0,
+            to: 1,
+            duration: rippleDuration,
+          }),
+        ),
+      ]),
     [],
   );
 

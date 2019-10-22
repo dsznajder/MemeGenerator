@@ -1,0 +1,40 @@
+name: Build Android
+
+on:
+  push:
+    branches:
+      - beta
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Setup Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.6.x'
+
+      - name: Extend watchers
+        run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+
+      - name: Install JS Dependencies
+        run: |
+          yarn install
+          npm install -g firebase-tools
+
+      - name: Install bundler & fastlane
+        run: |
+          gem install bundler
+          gem install fastlane
+          cd android && bundle install
+
+      - name: Build android
+        run: |
+          cd android
+          bundle exec fastlane android firebase_distribution firebase_app_id:${{ secrets.FIREBASE_ANDROID_APP_ID }} firebase_cli_token:${{ secrets.FIREBASE_TOKEN }}
